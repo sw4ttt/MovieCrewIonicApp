@@ -15,11 +15,23 @@ import { ContactPage } from '../contact/contact';
 })
 export class LoginPage {
 
+  public loadingItem: any; 
+
   constructor(private navCtrl: NavController,public loadingCtrl: LoadingController) 
   {
-
+    this.loadingItem = this.loadingCtrl.create({
+      content: "Please wait..."
+    });     
   }
 
+  presentLoading() 
+  {
+    this.loadingItem.present();
+
+    //loader.dismiss();
+  }
+
+  /*
   presentLoading() {
     let loader = this.loadingCtrl.create({
       content: "Please wait...",
@@ -32,5 +44,7 @@ export class LoginPage {
     this.navCtrl.push(ContactPage);
   });
   }
+  */
+
 
 }

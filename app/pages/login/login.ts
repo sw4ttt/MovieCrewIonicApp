@@ -4,9 +4,9 @@ import { LoadingController } from 'ionic-angular';
 
 import { ContactPage } from '../contact/contact';
 
+
 /*
   Generated class for the LoginPage page.
-
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 */

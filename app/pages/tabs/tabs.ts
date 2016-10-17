@@ -4,6 +4,8 @@ import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
 import { LoginPage } from '../login/login';
 
+
+
 @Component({
   templateUrl: 'build/pages/tabs/tabs.html'
 })

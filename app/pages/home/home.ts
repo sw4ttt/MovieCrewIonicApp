@@ -17,6 +17,7 @@ export class HomePage {
   }
 
   changeMessage(){
-        this.mcaProvider.setMessage("Home rocks!");
+        //this.mcaProvider.setMessage("Home rocks!");
+        this.mcaProvider.getMovie();
     }
 }

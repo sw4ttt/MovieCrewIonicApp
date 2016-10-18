@@ -13,32 +13,34 @@
 </ion-header>
 
 <ion-content padding>
-
-<ion-grid>
-    <ion-row center>
-        <ion-col width-50 offset-25>
-            <ion-item>
-                <ion-label color="primary" floating>Email</ion-label>
-                <ion-input type="email" placeholder="Email"></ion-input>
-            </ion-item>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col width-50 offset-25>
-          <ion-item>
-              <ion-label color="primary" floating>Password</ion-label>
-              <ion-input type="password" placeholder="Password"></ion-input>
-          </ion-item>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col width-50 offset-25>
-              <button ion-button block item-left icon-left (click)="presentLoading()">
-                <ion-icon name="person"></ion-icon>
-                Login
-              </button>
-        </ion-col>
-    </ion-row>
-</ion-grid>
-
+    <ion-grid>    
+        <form [formGroup]="formLogin" (ngSubmit)="login()">
+            <ion-row>
+                <ion-col width-50 offset-25>
+                    <ion-item>
+                        <ion-label color="primary" floating blur>Email</ion-label>
+                        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-50 offset-25>
+                    <ion-item>
+                        <ion-label color="primary" floating>Password</ion-label>
+                        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col width-50 offset-25>
+                    <ion-item>
+                        <button ion-button block type="submit" [disabled]="!formLogin.valid" item-left icon-left>
+                            <ion-icon name="person"></ion-icon>
+                            Login
+                        </button>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ion-grid>
 </ion-content>

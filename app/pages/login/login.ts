@@ -4,6 +4,10 @@ import { LoadingController } from 'ionic-angular';
 
 import { ContactPage } from '../contact/contact';
 
+import { MovieCrewApi } from '../../providers/movie-crew-api/movie-crew-api';
+
+import {Validators, FormBuilder } from '@angular/forms';
+
 
 /*
   Generated class for the LoginPage page.
@@ -16,12 +20,24 @@ import { ContactPage } from '../contact/contact';
 export class LoginPage {
 
   public loadingItem: any; 
+  public formLogin: any; 
 
-  constructor(private navCtrl: NavController,public loadingCtrl: LoadingController) 
+  constructor(private navCtrl: NavController,public loadingCtrl: LoadingController,private mcaProvider: MovieCrewApi,private formBuilder: FormBuilder) 
   {
     this.loadingItem = this.loadingCtrl.create({
       content: "Please wait..."
     });     
+  }
+  
+  ionViewLoaded() 
+  {
+      this.formLogin = this.formBuilder.group({
+        email: ['', Validators.required],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+      });
+  }
+  login(){
+    console.log(this.formLogin.value.email);
   }
 
   presentLoading() 
@@ -30,6 +46,11 @@ export class LoginPage {
 
     //loader.dismiss();
   }
+
+    testGetMovie(){
+        //this.mcaProvider.setMessage("Home rocks!");
+        this.mcaProvider.getMovie();
+    }
 
   /*
   presentLoading() {

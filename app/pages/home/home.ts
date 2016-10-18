@@ -15,9 +15,4 @@ export class HomePage {
   constructor(public navCtrl: NavController, private mcaProvider: MovieCrewApi) 
   {  
   }
-
-  changeMessage(){
-        //this.mcaProvider.setMessage("Home rocks!");
-        this.mcaProvider.getMovie();
-    }
 }

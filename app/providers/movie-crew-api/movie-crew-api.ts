@@ -27,7 +27,7 @@ export class MovieCrewApi
 
     login(email, password,loadingItem)
     {
-        console.log(this.testStuff(email, password));
+        //console.log(this.testStuff(email, password));
         return this.testStuff(email, password);
   
         /*

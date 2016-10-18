@@ -51,7 +51,19 @@ export class LoginPage {
 
       //this.loadingItem.present();
 
-      this.respuesta = this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem);
+      //this.respuesta = this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem);
+
+      this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem)
+      .then(
+      data => 
+      {
+          this.respuesta = data.token;
+          console.log(data);
+      }, 
+      error => 
+      {
+          console.log(error);
+      });
 
       //this.navCtrl.push(ContactPage);
   }

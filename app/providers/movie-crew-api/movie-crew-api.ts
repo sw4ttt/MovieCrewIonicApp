@@ -111,7 +111,7 @@ export class MovieCrewApi
         //this.movieId = "tt0133093";
         return new Promise(resolve => 
         {
-            this.http.get("https://moviecrew.herokuapp.com/api/getusercrews?user_id="+userId)
+            this.http.post("https://moviecrew.herokuapp.com/api/getusercrews?user_id="+userId, '')
             .subscribe(data => 
             {
                 resolve(data.json());
@@ -120,7 +120,7 @@ export class MovieCrewApi
             {
                 resolve(error.json());
             });
-        });
+        }); 
     }
 
 }

@@ -16,7 +16,6 @@ import { ContactPage } from '../../pages/contact/contact';
 export class MovieCrewApi
 {
 
-    public message: any = "I'm new here";
     public tokenSession: any = "";
     public movieId: any = "";
     public data: any;
@@ -28,7 +27,29 @@ export class MovieCrewApi
     login(email, password,loadingItem)
     {
         //console.log(this.testStuff(email, password));
-        return this.testStuff(email, password);
+
+        
+        return new Promise(resolve => 
+        {
+            this.http.post("https://moviecrew.herokuapp.com/api/login?email="+email+"&password="+password, '')
+            .subscribe(data => 
+            {
+                /*this.Title = data.json().title;
+                this.Year = data.json().year;
+                this.Plot = data.json().plot;
+                this.ratingIMDB = data.json().ratingIMDB; 
+                */           
+                //console.log(data.json());
+                loadingItem.dismiss();
+                resolve(data.json());
+
+            }, error => 
+            {
+                //console.log(error.json());
+                loadingItem.dismiss();
+                resolve(error.json());
+            });
+        }); 
   
         /*
         this.http.post("https://moviecrew.herokuapp.com/api/login?email="+email+"&password="+password, '')
@@ -51,11 +72,11 @@ export class MovieCrewApi
 
     testStuff(email, password) 
     {
-        if (this.data) 
+        /*if (this.data) 
         {
-        // already loaded data
             return Promise.resolve(this.data.json());
         }
+        */
 
         // don't have the data yet
         return new Promise(resolve => 
@@ -78,21 +99,17 @@ export class MovieCrewApi
         }); 
     }
 
-    getMovies()
-    {
-    }
-
     getUsers()
     {
     }
 
-    getMovie(movieId)
+    getMovie(IMDBid,loadingItem)
     {
 
         //this.movieId = "tt0133093";
-        var movieData;
-
-        this.http.post("https://moviecrew.herokuapp.com/api/getmovie?IMDBid="+movieId, '')
+        return new Promise(resolve => 
+        {
+            this.http.post("https://moviecrew.herokuapp.com/api/getmovie?IMDBid="+IMDBid, '')
             .subscribe(data => 
             {
                 /*this.Title = data.json().title;
@@ -100,16 +117,17 @@ export class MovieCrewApi
                 this.Plot = data.json().plot;
                 this.ratingIMDB = data.json().ratingIMDB; 
                 */           
-                
-                console.log(data.json());
-                movieData = data.json();
+                //console.log(data.json());
+                loadingItem.dismiss();
+                resolve(data.json());
 
-            }, error => {
+            }, error => 
+            {
                 //console.log(error.json());
-                movieData = error.json();
+                loadingItem.dismiss();
+                resolve(error.json());
             });
-
-            return movieData;
+        }); 
     /*
 
         let body = 'IMDBid=tt0133093';

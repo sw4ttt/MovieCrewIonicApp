@@ -12,9 +12,9 @@
 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
     <ion-grid>    
-        <form [formGroup]="formLogin" (ngSubmit)="login()">
+        <form [formGroup]="formLogin" (ngSubmit)="getMovie()">
             <ion-row>
                 <ion-col width-50 offset-25>
                     <ion-item>
@@ -32,20 +32,12 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col width-50 offset-25>
+                <ion-col width-33 offset-33>
                     <ion-item>
-                        <button ion-button block type="submit" [disabled]="!formLogin.valid" item-left icon-left>
+                        <button ion-button block type="submit" [disabled]="!formLogin.valid" icon-left>
                             <ion-icon name="person"></ion-icon>
                             Login
                         </button>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-
-            <ion-row>
-                <ion-col width-50 offset-25>
-                    <ion-item>
-                        <ion-label>{{respuesta}}</ion-label>
                     </ion-item>
                 </ion-col>
             </ion-row>

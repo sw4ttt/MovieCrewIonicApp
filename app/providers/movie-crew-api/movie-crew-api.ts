@@ -44,8 +44,9 @@ export class MovieCrewApi
             });
         });   
     }
-    getUsers()
+    getUserInfo()
     {
+        
     }
 
     getMovie(IMDBid)
@@ -94,6 +95,23 @@ export class MovieCrewApi
         return new Promise(resolve => 
         {
             this.http.get("https://moviecrew.herokuapp.com/api/movies")
+            .subscribe(data => 
+            {
+                resolve(data.json());
+
+            }, error => 
+            {
+                resolve(error.json());
+            });
+        });
+    }
+    getUserCrews(userId)
+    {
+
+        //this.movieId = "tt0133093";
+        return new Promise(resolve => 
+        {
+            this.http.get("https://moviecrew.herokuapp.com/api/getusercrews?user_id="+userId)
             .subscribe(data => 
             {
                 resolve(data.json());

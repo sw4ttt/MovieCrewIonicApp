@@ -22,6 +22,7 @@ export class HomePage
     public dataMovie: any; 
 
     public movies: any;
+    public crews: any;
 
     constructor(public navCtrl: NavController, private mcaProvider: MovieCrewApi,public loadingCtrl: LoadingController,private formBuilder: FormBuilder) 
     {
@@ -87,6 +88,32 @@ export class HomePage
             this.hideLoadingItem();
             this.showRow = true;
             this.movies = data;
+            //this.navCtrl.push(HomePage);
+        }, 
+        error => 
+        {
+            console.log(error);
+            this.hideLoadingItem();
+            this.showRow = false;
+            //this.navCtrl.push(LoginPage);
+        });
+
+    }
+
+    getUserCrews()
+    {
+        this.showLoadingItem();
+
+        var user_id = "1";
+
+        this.mcaProvider.getUserCrews(user_id)
+        .then(
+        data => 
+        {
+            console.log(data);
+            this.hideLoadingItem();
+            this.showRow = true;
+            this.crews = data;
             //this.navCtrl.push(HomePage);
         }, 
         error => 

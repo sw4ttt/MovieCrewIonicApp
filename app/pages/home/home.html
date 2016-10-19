@@ -8,7 +8,7 @@
  
 <ion-content>
     <ion-grid>    
-        <form [formGroup]="formHome" (ngSubmit)="getMovies()">
+        <form [formGroup]="formHome" (ngSubmit)="getUserCrews()">
 <!-- Input IMDBid ..................................................................-->
             <ion-row>
                 <ion-col width-50 offset-25>
@@ -32,7 +32,8 @@
             <ion-row *ngIf="showRow">
                 <ion-col width-50 offset-25>
                     <ion-item *ngFor="let item of movies">
-                        <ion-label color="primary" >{{item.title}}</ion-label>
+                        <ion-label color="primary" >{{item.id}}</ion-label>
+                        <ion-label color="primary" >{{item.name}}</ion-label>
                     </ion-item>
                 </ion-col>
             </ion-row>

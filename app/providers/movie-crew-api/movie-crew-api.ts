@@ -15,95 +15,40 @@ import { ContactPage } from '../../pages/contact/contact';
 @Injectable()
 export class MovieCrewApi
 {
-
-    public tokenSession: any = "";
-    public movieId: any = "";
-    public data: any;
+    public userToken: any;
 
     constructor(private http: Http) 
     {
+        this.userToken = 'empty';
     }
 
-    login(email, password,loadingItem)
+    login(email, password)
     {
         //console.log(this.testStuff(email, password));
-
-        
+        /*if (this.data) 
+        {
+            //loadingItem.dismiss();
+            return Promise.resolve(this.data.json());
+        }
+        */        
         return new Promise(resolve => 
         {
             this.http.post("https://moviecrew.herokuapp.com/api/login?email="+email+"&password="+password, '')
             .subscribe(data => 
             {
-                /*this.Title = data.json().title;
-                this.Year = data.json().year;
-                this.Plot = data.json().plot;
-                this.ratingIMDB = data.json().ratingIMDB; 
-                */           
-                //console.log(data.json());
-                loadingItem.dismiss();
                 resolve(data.json());
 
             }, error => 
             {
-                //console.log(error.json());
-                loadingItem.dismiss();
                 resolve(error.json());
             });
-        }); 
-  
-        /*
-        this.http.post("https://moviecrew.herokuapp.com/api/login?email="+email+"&password="+password, '')
-        .subscribe(data => 
-        {
-            this.Title = data.json().title;
-            this.Year = data.json().year;
-            this.Plot = data.json().plot;
-            this.ratingIMDB = data.json().ratingIMDB; 
-            
-            console.log(data.json());
-            loadingItem.dismiss();
-
-        }, error => {
-            console.log(error.json());
-            loadingItem.dismiss();
-        }); 
-        */      
+        });   
     }
-
-    testStuff(email, password) 
-    {
-        /*if (this.data) 
-        {
-            return Promise.resolve(this.data.json());
-        }
-        */
-
-        // don't have the data yet
-        return new Promise(resolve => 
-        {
-            this.http.post("https://moviecrew.herokuapp.com/api/login?email="+email+"&password="+password, '')
-            .subscribe(data => 
-            {
-                /*this.Title = data.json().title;
-                this.Year = data.json().year;
-                this.Plot = data.json().plot;
-                this.ratingIMDB = data.json().ratingIMDB; 
-                */           
-                //console.log(data.json());
-                resolve(data.json());
-
-            }, error => {
-                //console.log(error.json());
-                resolve(error.json());
-            });
-        }); 
-    }
-
     getUsers()
     {
     }
 
-    getMovie(IMDBid,loadingItem)
+    getMovie(IMDBid)
     {
 
         //this.movieId = "tt0133093";
@@ -112,24 +57,14 @@ export class MovieCrewApi
             this.http.post("https://moviecrew.herokuapp.com/api/getmovie?IMDBid="+IMDBid, '')
             .subscribe(data => 
             {
-                /*this.Title = data.json().title;
-                this.Year = data.json().year;
-                this.Plot = data.json().plot;
-                this.ratingIMDB = data.json().ratingIMDB; 
-                */           
-                //console.log(data.json());
-                loadingItem.dismiss();
                 resolve(data.json());
 
             }, error => 
             {
-                //console.log(error.json());
-                loadingItem.dismiss();
                 resolve(error.json());
             });
         }); 
-    /*
-
+        /*
         let body = 'IMDBid=tt0133093';
         // let body = JSON.stringify({ email: 'sw4ttt@gmail.com', password: 'maltamalta' });
         //Access-Control-Allow-Origin
@@ -150,6 +85,24 @@ export class MovieCrewApi
         });
         */
 
+    }
+
+    getMovies()
+    {
+
+        //this.movieId = "tt0133093";
+        return new Promise(resolve => 
+        {
+            this.http.get("https://moviecrew.herokuapp.com/api/movies")
+            .subscribe(data => 
+            {
+                resolve(data.json());
+
+            }, error => 
+            {
+                resolve(error.json());
+            });
+        });
     }
 
 }

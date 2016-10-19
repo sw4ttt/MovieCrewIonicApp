@@ -20,92 +20,100 @@ import { NativeStorage } from 'ionic-native';
 @Component({
   templateUrl: 'build/pages/login/login.html',
 })
-export class LoginPage {
+export class LoginPage 
+{
+    public loadingItem: any; 
+    public formLogin: any;
+    public respuesta: any;
 
-  public loadingItem: any; 
-  public formLogin: any;
+    constructor(private navCtrl: NavController,public loadingCtrl: LoadingController,private mcaProvider: MovieCrewApi,private formBuilder: FormBuilder) 
+    {
+        /*this.loadingItem = this.loadingCtrl.create({
+            content: "Please wait...",
+            duration: 5000
+        });
+        */ 
+        this.respuesta = "empty";
 
-  constructor(private navCtrl: NavController,public loadingCtrl: LoadingController,private mcaProvider: MovieCrewApi,private formBuilder: FormBuilder) 
-  {
-    this.loadingItem = this.loadingCtrl.create({
-        content: "Please wait...",
-        duration: 5000
-    }); 
-
-    this.formLogin = this.formBuilder.group({
-        email: ['sw4ttt@gmail.com', Validators.required],
-        password: ['boner', Validators.compose([Validators.required, Validators.minLength(4)])],
-    });
+        this.formLogin = this.formBuilder.group({
+            email: ['sw4ttt@gmail.com', Validators.required],
+            password: ['boner', Validators.compose([Validators.required, Validators.minLength(4)])]
+        });
         
-  }
-  /*
-  ionViewLoaded() 
-  {
-      this.formLogin = this.formBuilder.group({
+    }
+    /*
+    ionViewLoaded() 
+    {
+        this.formLogin = this.formBuilder.group({
         email: ['', Validators.required],
         password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-      });
-  }
-  */
+        });
+    }
+    */
 
-  login()
-  {
-      //console.log(this.formLogin.value.email);
 
-      this.loadingItem.present();
+    login()
+    {
+        //console.log(this.formLogin.value.email);        
 
-      //this.respuesta = this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem);
+        this.showLoadingItem();
 
-      this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem)
-      .then(
-      data => 
-      {
-          console.log(data);
-          this.navCtrl.push(HomePage);
-      }, 
-      error => 
-      {
-          console.log(error);
-          this.navCtrl.push(LoginPage);
-      });
-      
+        //this.respuesta = this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem);
 
-      //this.navCtrl.push(ContactPage);
-  }
+        this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password)
+        .then(
+        data => 
+        {
+            this.hideLoadingItem();
 
-  getMovie()
-  {
-      this.loadingItem.present();
+            console.log(data);
+            //this.respuesta = data['token'];
+            this.navCtrl.push(HomePage);
+        }, 
+        error => 
+        {
+            this.hideLoadingItem();
 
-      this.mcaProvider.getMovie("tt0133093",this.loadingItem)
-      .then(
-      data => 
-      {
-          console.log(data);
-          //this.navCtrl.push(HomePage);
-      }, 
-      error => 
-      {
-          console.log(error);
-          //this.navCtrl.push(LoginPage);
-      });
+            console.log(error);
+            this.navCtrl.push(LoginPage);
+        });
+        
 
-  }
+        //this.navCtrl.push(ContactPage);
+    }
 
-  /*
-  presentLoading() {
+    showLoadingItem()
+    {
+        this.loadingItem = this.loadingCtrl.create({
+            content: "Please wait..."
+        });
+
+        this.loadingItem.present();
+    }
+
+    hideLoadingItem()
+    {
+        this.loadingItem.dismiss();
+        
+        this.loadingItem = this.loadingCtrl.create({
+            content: "Please wait..."
+        });
+    }
+
+    /*
+    presentLoading() {
     let loader = this.loadingCtrl.create({
-      content: "Please wait...",
-      duration: 3000
+        content: "Please wait...",
+        duration: 3000
     });
     loader.present();
-    
+
 
     loader.onDidDismiss(() => {
     this.navCtrl.push(ContactPage);
-  });
-  }
-  */
+    });
+    }
+    */
 
 
 }

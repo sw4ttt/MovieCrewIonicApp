@@ -14,12 +14,12 @@
 
 <ion-content>
     <ion-grid>    
-        <form [formGroup]="formLogin" (ngSubmit)="getMovie()">
+        <form [formGroup]="formLogin" (ngSubmit)="login()">
             <ion-row>
                 <ion-col width-50 offset-25>
                     <ion-item>
-                        <ion-label color="primary" floating blur>Email</ion-label>
-                        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+                        <ion-label color="primary" floating>Email</ion-label>
+                        <ion-input type="email" formControlName="email"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
@@ -27,7 +27,7 @@
                 <ion-col width-50 offset-25>
                     <ion-item>
                         <ion-label color="primary" floating>Password</ion-label>
-                        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+                        <ion-input type="password" formControlName="password"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>

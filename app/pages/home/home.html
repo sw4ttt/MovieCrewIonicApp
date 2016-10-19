@@ -6,6 +6,36 @@
  
 </ion-header>
  
-<ion-content padding>
-    <h2>Stuff</h2>
+<ion-content>
+    <ion-grid>    
+        <form [formGroup]="formHome" (ngSubmit)="getMovies()">
+<!-- Input IMDBid ..................................................................-->
+            <ion-row>
+                <ion-col width-50 offset-25>
+                    <ion-item>
+                        <ion-label color="primary" floating blur>IMDBid</ion-label>
+                        <ion-input type="text" formControlName="IMDBid"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+<!-- END Input IMDBid ...............................................................-->
+            <ion-row>
+                <ion-col width-33 offset-33>
+                    <ion-item>
+                        <button ion-button block type="submit" [disabled]="!formHome.valid" icon-left>
+                            <ion-icon name="film"></ion-icon>
+                            Search Movie
+                        </button>
+                    </ion-item>
+                </ion-col>
+            </ion-row>            
+            <ion-row *ngIf="showRow">
+                <ion-col width-50 offset-25>
+                    <ion-item *ngFor="let item of movies">
+                        <ion-label color="primary" >{{item.title}}</ion-label>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+        </form>
+    </ion-grid>
 </ion-content>

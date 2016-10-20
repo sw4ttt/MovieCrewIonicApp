@@ -10,6 +10,7 @@ import { MovieCrewApi } from '../../providers/movie-crew-api/movie-crew-api';
 import {Validators, FormBuilder } from '@angular/forms';
 
 import { NativeStorage } from 'ionic-native';
+import { ToastController } from 'ionic-angular';
 
 
 /*
@@ -26,7 +27,12 @@ export class LoginPage
     public formLogin: any;
     public respuesta: any;
 
-    constructor(private navCtrl: NavController,public loadingCtrl: LoadingController,private mcaProvider: MovieCrewApi,private formBuilder: FormBuilder) 
+    public showRowErrors: any;
+
+    constructor(
+        private navCtrl: NavController,public loadingCtrl: LoadingController
+        ,private mcaProvider: MovieCrewApi,private formBuilder: FormBuilder
+        ,public toastCtrl: ToastController) 
     {
         /*this.loadingItem = this.loadingCtrl.create({
             content: "Please wait...",
@@ -56,7 +62,7 @@ export class LoginPage
     {
         //console.log(this.formLogin.value.email);        
 
-        this.showLoadingItem();
+        //this.showLoadingItem();
 
         //this.respuesta = this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem);
 
@@ -64,22 +70,28 @@ export class LoginPage
         .then(
         data => 
         {
-            this.hideLoadingItem();
+            //this.hideLoadingItem();
 
-            console.log(data);
-            //this.respuesta = data['token'];
-            this.navCtrl.push(HomePage);
+            if (!!data['result'])
+            {
+                
+                this.showErrors("Error: credentials.");
+                console.log(data);                
+            }
+            else
+            {
+                this.mcaProvider.userToken = data['token'];
+                console.log(data);
+
+                this.getUserInfo(data['token']);
+            }
+                    
         }, 
         error => 
         {
-            this.hideLoadingItem();
-
             console.log(error);
-            this.navCtrl.push(LoginPage);
+            //this.navCtrl.pop();
         });
-        
-
-        //this.navCtrl.push(ContactPage);
     }
 
     showLoadingItem()
@@ -98,6 +110,49 @@ export class LoginPage
         this.loadingItem = this.loadingCtrl.create({
             content: "Please wait..."
         });
+    }
+
+    getUserInfo(token)
+    {
+        this.mcaProvider.getUser(token)
+        .then(
+        data => 
+        {
+            if (!!data['error'])
+            {
+                //this.hideLoadingItem();
+                this.showErrors("Error: request.");
+                console.log(data);
+            }
+            else
+            {
+                //this.hideLoadingItem();
+                console.log(data);
+
+                this.navCtrl.push(HomePage, {
+                id: data['id'],
+                name: data['name'],
+                email: data['email']
+                });                
+            }
+        }, 
+        error => 
+        {
+            this.hideLoadingItem();
+            console.log(error);
+            this.navCtrl.pop();
+            this.showErrors("Error: request.");
+        });  
+    }
+
+    showErrors(errorText) 
+    {
+        let toast = this.toastCtrl.create({
+            message: errorText,
+            duration: 3000,
+            position: 'middle'
+        });
+        toast.present();
     }
 
     /*

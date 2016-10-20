@@ -16,12 +16,15 @@ import { ContactPage } from '../../pages/contact/contact';
 export class MovieCrewApi
 {
     public userToken: any;
+    public userId: any;
 
     constructor(private http: Http) 
     {
         this.userToken = 'empty';
+        this.userId = 'empty';
     }
 
+// User Login method. returns session token. the token must be used on api requests.
     login(email, password)
     {
         //console.log(this.testStuff(email, password));
@@ -44,11 +47,26 @@ export class MovieCrewApi
             });
         });   
     }
-    getUserInfo()
+
+// GET User Information.
+    getUser(token)
     {
-        
+        return new Promise(resolve => 
+        {
+            this.http.post("https://moviecrew.herokuapp.com/api/getuser?token="+token, '')
+            .subscribe(data => 
+            {
+                resolve(data.json());
+
+            }, error => 
+            {
+                resolve(error.json());
+            });
+        });
     }
 
+
+// GET MOVIE BY IMDBid
     getMovie(IMDBid)
     {
 
@@ -64,50 +82,12 @@ export class MovieCrewApi
             {
                 resolve(error.json());
             });
-        }); 
-        /*
-        let body = 'IMDBid=tt0133093';
-        // let body = JSON.stringify({ email: 'sw4ttt@gmail.com', password: 'maltamalta' });
-        //Access-Control-Allow-Origin
-        var headers = new Headers({ 'Content-Type': 'application/json'}); 
-        var options = new RequestOptions({ headers: headers });
-
-        this.http.post("https://moviecrew.herokuapp.com/api/getmovie?IMDBid=tt3263904", '')
-        .subscribe(data => 
-        {
-            this.Title = data.json().title;
-            this.Year = data.json().year;
-            this.Plot = data.json().plot;
-            this.ratingIMDB = data.json().ratingIMDB;            
-            
-            console.log(data);  
-        }, error => {
-            console.log(JSON.stringify(error.json()));
-        });
-        */
-
-    }
-
-    getMovies()
-    {
-
-        //this.movieId = "tt0133093";
-        return new Promise(resolve => 
-        {
-            this.http.get("https://moviecrew.herokuapp.com/api/movies")
-            .subscribe(data => 
-            {
-                resolve(data.json());
-
-            }, error => 
-            {
-                resolve(error.json());
-            });
         });
     }
+
+// GET the CREWS that belong to an user.
     getUserCrews(userId)
     {
-
         //this.movieId = "tt0133093";
         return new Promise(resolve => 
         {

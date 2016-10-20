@@ -10,30 +10,27 @@ import 'rxjs/add/operator/map';
   See https://angular.io/docs/ts/latest/guide/dependency-injection.html
   for more info on providers and Angular 2 DI.
 */
-import { ContactPage } from '../../pages/contact/contact';
 
 @Injectable()
 export class MovieCrewApi
 {
     public userToken: any;
     public userId: any;
+    public userName: any;
+    public userEmail: any;
 
     constructor(private http: Http) 
     {
         this.userToken = 'empty';
         this.userId = 'empty';
+        this.userName = 'empty';
+        this.userEmail = 'empty';
+        
     }
 
 // User Login method. returns session token. the token must be used on api requests.
     login(email, password)
-    {
-        //console.log(this.testStuff(email, password));
-        /*if (this.data) 
-        {
-            //loadingItem.dismiss();
-            return Promise.resolve(this.data.json());
-        }
-        */        
+    {      
         return new Promise(resolve => 
         {
             this.http.post("https://moviecrew.herokuapp.com/api/login?email="+email+"&password="+password, '')
@@ -69,7 +66,6 @@ export class MovieCrewApi
 // GET MOVIE BY IMDBid
     getMovie(IMDBid)
     {
-
         //this.movieId = "tt0133093";
         return new Promise(resolve => 
         {

@@ -7,9 +7,9 @@ import { HomePage } from '../home/home';
 
 import { MovieCrewApi } from '../../providers/movie-crew-api/movie-crew-api';
 
-import {Validators, FormBuilder } from '@angular/forms';
+import { DataStorage } from '../../providers/data-storage/data-storage';
 
-import { NativeStorage } from 'ionic-native';
+import {Validators, FormBuilder } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
 
 
@@ -20,26 +20,28 @@ import { ToastController } from 'ionic-angular';
 */
 @Component({
   templateUrl: 'build/pages/login/login.html',
+  providers: [LoadingController]
 })
 export class LoginPage 
 {
-    public loadingItem: any; 
+    public loadingItem: any;
     public formLogin: any;
-    public respuesta: any;
 
     public showRowErrors: any;
 
     constructor(
-        private navCtrl: NavController,public loadingCtrl: LoadingController
-        ,private mcaProvider: MovieCrewApi,private formBuilder: FormBuilder
-        ,public toastCtrl: ToastController) 
+        private navCtrl: NavController
+        ,public loadingCtrlLogin: LoadingController
+        ,private mcaProvider: MovieCrewApi
+        ,private formBuilder: FormBuilder
+        ,public toastCtrl: ToastController
+        ,private dataStorage: DataStorage) 
     {
         /*this.loadingItem = this.loadingCtrl.create({
             content: "Please wait...",
             duration: 5000
         });
         */ 
-        this.respuesta = "empty";
 
         this.formLogin = this.formBuilder.group({
             email: ['sw4ttt@gmail.com', Validators.required],
@@ -57,47 +59,44 @@ export class LoginPage
     }
     */
 
-
     login()
     {
-        //console.log(this.formLogin.value.email);        
-
-        //this.showLoadingItem();
-
-        //this.respuesta = this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password,this.loadingItem);
+        //console.log(this.formLogin.value.email); 
+        
+        this.showLoadingItem();
 
         this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password)
         .then(
         data => 
         {
-            //this.hideLoadingItem();
-
             if (!!data['result'])
             {
-                
-                this.showErrors("Error: credentials.");
+                this.hideLoadingItem();
+                this.showErrors("Error: credentials.(login)");
                 console.log(data);                
             }
             else
             {
-                this.mcaProvider.userToken = data['token'];
-                console.log(data);
+                //this.storage.setUserToken = data['token'];
+                this.dataStorage.setUserToken(data['token']);
+
+                console.log(data);               
 
                 this.getUserInfo(data['token']);
-            }
-                    
+            }                    
         }, 
         error => 
         {
             console.log(error);
+            this.showErrors("Error: checking credentials.(login)");
             //this.navCtrl.pop();
         });
     }
 
     showLoadingItem()
     {
-        this.loadingItem = this.loadingCtrl.create({
-            content: "Please wait..."
+        this.loadingItem = this.loadingCtrlLogin.create({
+            content: "Please wait...LOGIN"
         });
 
         this.loadingItem.present();
@@ -106,10 +105,6 @@ export class LoginPage
     hideLoadingItem()
     {
         this.loadingItem.dismiss();
-        
-        this.loadingItem = this.loadingCtrl.create({
-            content: "Please wait..."
-        });
     }
 
     getUserInfo(token)
@@ -120,28 +115,28 @@ export class LoginPage
         {
             if (!!data['error'])
             {
-                //this.hideLoadingItem();
-                this.showErrors("Error: request.");
+                this.hideLoadingItem();
+                this.showErrors("Error: in Data getting User Info.(getUserInfo)");
                 console.log(data);
             }
             else
             {
-                //this.hideLoadingItem();
+                this.hideLoadingItem();
                 console.log(data);
 
-                this.navCtrl.push(HomePage, {
-                id: data['id'],
-                name: data['name'],
-                email: data['email']
-                });                
+                this.dataStorage.setUserId(data['id']);
+                this.dataStorage.setUserName(data['name']);
+                this.dataStorage.setUserEmail(data['email']);
+
+                this.navCtrl.push(HomePage);             
             }
         }, 
         error => 
         {
             this.hideLoadingItem();
             console.log(error);
-            this.navCtrl.pop();
-            this.showErrors("Error: request.");
+            //this.navCtrl.pop();
+            this.showErrors("Error: Getting User Info.(getUserInfo)");
         });  
     }
 

@@ -1,7 +1,7 @@
 <ion-header>
  
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Home {{testText}}</ion-title>
   </ion-navbar>
  
 </ion-header>
@@ -9,16 +9,15 @@
 <ion-content>
     <ion-grid>    
         <form [formGroup]="formHome" (ngSubmit)="getUserCrews()">
-<!-- Input IMDBid ..................................................................-->
+<!--
             <ion-row>
                 <ion-col width-50 offset-25>
                     <ion-item>
-                        <ion-label color="primary" floating blur>IMDBid</ion-label>
+                        <ion-label color="primary" floating blur>IMDBid USERID{{userId}}</ion-label>
                         <ion-input type="text" formControlName="IMDBid"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
-<!-- END Input IMDBid ...............................................................-->
             <ion-row>
                 <ion-col width-33 offset-33>
                     <ion-item>
@@ -28,18 +27,22 @@
                         </button>
                     </ion-item>
                 </ion-col>
-            </ion-row>   
-            <!--          
-            <ion-row *ngIf="showRow">
+            </ion-row>
+ -->         
+            <ion-row *ngIf="haveCrews">
                 <ion-col width-50 offset-25>
                     <ion-label color="primary" >USER CREWS</ion-label>
-                    <ion-item *ngFor="let item of crews">
+                    <ion-item *ngFor="let item of userCrews">
                         <ion-label color="primary" >{{item.id}}</ion-label>
                         <ion-label color="primary" >{{item.name}}</ion-label>
                     </ion-item>
                 </ion-col>
             </ion-row>
-            -->
+            <ion-row *ngIf="!haveCrews">
+                <ion-col width-50 offset-25>
+                    <ion-label color="primary" >You don't have any Crews <ion-icon name="sad"></ion-icon></ion-label>
+                </ion-col>
+            </ion-row>
         </form>
     </ion-grid>
 </ion-content>

@@ -5,6 +5,8 @@ import { TabsPage } from './pages/tabs/tabs';
 
 import {MovieCrewApi} from './providers/movie-crew-api/movie-crew-api';
 
+import {DataStorage} from './providers/data-storage/data-storage';
+
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>'
@@ -24,4 +26,4 @@ export class MyApp {
   }
 }
 
-ionicBootstrap(MyApp , [MovieCrewApi]);
+ionicBootstrap(MyApp , [MovieCrewApi,DataStorage]);

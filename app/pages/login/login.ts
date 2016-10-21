@@ -105,21 +105,17 @@ export class LoginPage
             }
             else
             {
-                this.hideLoadingItem();
+                //console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
+                console.log(data);
 
-                this.loadingItem.onDidDismiss(() => {
-                    console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
-                    console.log(data);
+                this.dataStorage.setUserId(data['id']);
+                this.dataStorage.setUserName(data['name']);
+                this.dataStorage.setUserEmail(data['email']);
 
-                    this.dataStorage.setUserId(data['id']);
-                    this.dataStorage.setUserName(data['name']);
-                    this.dataStorage.setUserEmail(data['email']);
+                this.getUserCrews();
 
-                    this.navCtrl.setRoot(HomePage);
-                    this.navCtrl.push(HomePage); 
-                });
-
-                            
+                //this.navCtrl.setRoot(HomePage);
+                //his.navCtrl.push(HomePage);                             
             }
         }, 
         error => 
@@ -129,6 +125,42 @@ export class LoginPage
             //this.navCtrl.pop();
             this.showErrors("Error: Getting User Info.(getUserInfo)");
         });  
+    }
+
+    getUserCrews()
+    {
+        //this.showLoadingItem();
+        
+        this.mcaProvider.getUserCrews(this.dataStorage.userId)
+        .then(
+        data => 
+        {
+            if (!!data['user_id'])
+            {
+                this.hideLoadingItem();
+                this.showErrors("Error: in Data getting User Crews.(getUserCrews - Data)");
+                //console.log(data);
+            }
+            else
+            {
+                //this.hideLoadingItem();
+
+                this.dataStorage.setUserCrews(data);  
+                this.navCtrl.setRoot(HomePage);
+
+                this.navCtrl.popToRoot();
+                //this.navCtrl.push(HomePage);               
+            }
+        }, 
+        error => 
+        {
+            console.log(error);
+            //this.hideLoadingItem();
+            this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
+            this.navCtrl.push(LoginPage);
+        });        
+        
+        //this.hideLoadingItem();
     }
 
     showErrors(errorText) 

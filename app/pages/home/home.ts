@@ -41,52 +41,12 @@ export class HomePage
             IMDBid: ['', Validators.required],
         });  
 
-        this.haveCrews = false;
+        this.haveCrews = true;
 
-        this.userText =  "xxx";
+        this.userCrews = this.dataStorage.userCrews;
+        this.userText =  this.dataStorage.userName;
 
-        this.getUserCrews();
-    }
-
-    getUserCrews()
-    {
-        this.showLoadingItem();
-        
-
-        this.userText = this.dataStorage.userName;
-        
-        this.mcaProvider.getUserCrews(this.dataStorage.userId)
-        .then(
-        data => 
-        {
-            if (!!data['user_id'])
-            {
-                this.hideLoadingItem();
-                this.showErrors("Error: in Data getting User Crews.(getUserCrews - Data)");
-                //console.log(data);
-            }
-            else
-            {
-                this.hideLoadingItem();
-                
-                this.loadingItem.onDidDismiss(() => 
-                {
-                    console.log("HOME DISMISS XXXXXXXXXXXXXXXXXXXXXXXX"); 
-                    //console.log(data);                
-                    this.userCrews = data;
-                    this.haveCrews = true;                    
-                });                
-            }
-        }, 
-        error => 
-        {
-            console.log(error);
-            //this.hideLoadingItem();
-            this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
-            this.navCtrl.push(LoginPage);
-        });        
-        
-        //this.hideLoadingItem();
+        //this.getUserCrews();
     }
     
     /*

@@ -26,6 +26,7 @@ export class DataStorage {
         this.userId = "empty";
         this.userName = "empty";
         this.userEmail = "empty";
+        this.userCrews = "empty";
     }
 
     setUserToken(token)
@@ -46,6 +47,11 @@ export class DataStorage {
     setUserEmail(email)
     {
         this.userEmail = email;  
+    }
+
+    setUserCrews(crews)
+    {
+        this.userCrews = crews;  
     }
 }
 

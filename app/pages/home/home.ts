@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ViewController } from 'ionic-angular';
 import {Http,Headers,RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { LoadingController } from 'ionic-angular';
@@ -25,7 +25,7 @@ export class HomePage
 
     public userCrews: any;
 
-    public testText: any;
+    public userText: any;
 
     constructor(
         public navCtrl: NavController
@@ -34,7 +34,8 @@ export class HomePage
         ,public loadingCtrlHome: LoadingController
         ,private formBuilder: FormBuilder
         ,public toastCtrl: ToastController
-        ,private dataStorage: DataStorage) 
+        ,private dataStorage: DataStorage
+        ,private viewCtrl: ViewController) 
     {
         this.formHome = this.formBuilder.group({
             IMDBid: ['', Validators.required],
@@ -42,22 +43,17 @@ export class HomePage
 
         this.haveCrews = false;
 
-        this.testText =  "xxx";
-        this.getUserCrews();       
-    }
+        this.userText =  "xxx";
 
-    /*
-    ionViewLoaded() 
-    {
         this.getUserCrews();
     }
-    */
 
     getUserCrews()
     {
-        //this.showLoadingItem();
+        this.showLoadingItem();
+        
 
-        this.testText = this.dataStorage.userEmail;
+        this.userText = this.dataStorage.userName;
         
         this.mcaProvider.getUserCrews(this.dataStorage.userId)
         .then(
@@ -65,16 +61,21 @@ export class HomePage
         {
             if (!!data['user_id'])
             {
-                //this.hideLoadingItem();
+                this.hideLoadingItem();
                 this.showErrors("Error: in Data getting User Crews.(getUserCrews - Data)");
-                console.log(data);
+                //console.log(data);
             }
             else
             {
-                console.log(data);                
-                this.userCrews = data;
-                this.haveCrews = true;
-                //this.hideLoadingItem();
+                this.hideLoadingItem();
+                
+                this.loadingItem.onDidDismiss(() => 
+                {
+                    console.log("HOME DISMISS XXXXXXXXXXXXXXXXXXXXXXXX"); 
+                    //console.log(data);                
+                    this.userCrews = data;
+                    this.haveCrews = true;                    
+                });                
             }
         }, 
         error => 
@@ -126,7 +127,8 @@ export class HomePage
     showLoadingItem()
     {
         this.loadingItem = this.loadingCtrlHome.create({
-            content: "Please wait... HOME"
+            content: "Please wait... HOME",
+            dismissOnPageChange: true
         });
 
         this.loadingItem.present();
@@ -135,5 +137,15 @@ export class HomePage
     hideLoadingItem()
     {
         this.loadingItem.dismiss();
+    }
+
+    showLoadingItemWithTime() 
+    {
+        let loading = this.loadingCtrlHome.create({
+            content: 'Please wait... con Tiempo 5seg.',
+            duration: 5000
+        });
+
+        loading.present();
     }
 }

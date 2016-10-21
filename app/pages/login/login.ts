@@ -73,14 +73,13 @@ export class LoginPage
             {
                 this.hideLoadingItem();
                 this.showErrors("Error: credentials.(login)");
-                console.log(data);                
+                //console.log(data);                
             }
             else
             {
-                //this.storage.setUserToken = data['token'];
                 this.dataStorage.setUserToken(data['token']);
 
-                console.log(data);               
+                //console.log(data);               
 
                 this.getUserInfo(data['token']);
             }                    
@@ -92,21 +91,6 @@ export class LoginPage
             //this.navCtrl.pop();
         });
     }
-
-    showLoadingItem()
-    {
-        this.loadingItem = this.loadingCtrlLogin.create({
-            content: "Please wait...LOGIN"
-        });
-
-        this.loadingItem.present();
-    }
-
-    hideLoadingItem()
-    {
-        this.loadingItem.dismiss();
-    }
-
     getUserInfo(token)
     {
         this.mcaProvider.getUser(token)
@@ -117,18 +101,25 @@ export class LoginPage
             {
                 this.hideLoadingItem();
                 this.showErrors("Error: in Data getting User Info.(getUserInfo)");
-                console.log(data);
+                //console.log(data);
             }
             else
             {
                 this.hideLoadingItem();
-                console.log(data);
 
-                this.dataStorage.setUserId(data['id']);
-                this.dataStorage.setUserName(data['name']);
-                this.dataStorage.setUserEmail(data['email']);
+                this.loadingItem.onDidDismiss(() => {
+                    console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
+                    console.log(data);
 
-                this.navCtrl.push(HomePage);             
+                    this.dataStorage.setUserId(data['id']);
+                    this.dataStorage.setUserName(data['name']);
+                    this.dataStorage.setUserEmail(data['email']);
+
+                    this.navCtrl.setRoot(HomePage);
+                    this.navCtrl.push(HomePage); 
+                });
+
+                            
             }
         }, 
         error => 
@@ -148,6 +139,21 @@ export class LoginPage
             position: 'middle'
         });
         toast.present();
+    }
+
+    showLoadingItem()
+    {
+        this.loadingItem = this.loadingCtrlLogin.create({
+            content: "Please wait...LOGIN",
+            dismissOnPageChange: true
+        });
+
+        this.loadingItem.present();
+    }
+
+    hideLoadingItem()
+    {
+        this.loadingItem.dismiss();
     }
 
     /*

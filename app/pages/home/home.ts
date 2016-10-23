@@ -27,8 +27,6 @@ export class HomePage
 
     public userText: any;
 
-    public tabRef: Tabs;  
-
     constructor(
         public navCtrl: NavController
         ,public navParams: NavParams
@@ -50,23 +48,12 @@ export class HomePage
 
         //this.dataStorage.selectedTab = "0";
 
-        //this.getUserCrews();
+        //this.navCtrl.setRoot(TabsPage);
 
-        this.dataStorage.selectedTab = 0;
-
-        this.tabRef = this.navCtrl.parent;        
+        //this.getUserCrews();      
     }
 
     
-    ionViewDidEnter() 
-    {
-        /*this.formLogin = this.formBuilder.group({
-        email: ['', Validators.required],
-        password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-        });*/
-
-        this.tabRef.select(0);
-    }
     
     /*
     getCrewMovies(crew_id)

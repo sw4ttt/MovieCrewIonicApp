@@ -20,8 +20,6 @@ export class DataStorage {
     public userEmail: any;
     public userCrews: any;
 
-    public selectedTab: any;
-
     constructor(private http: Http) 
     {
         this.userToken = "empty";
@@ -29,8 +27,6 @@ export class DataStorage {
         this.userName = "empty";
         this.userEmail = "empty";
         this.userCrews = "empty";
-
-        this.selectedTab = 1;
     }
 
     setUserToken(token)

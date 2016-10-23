@@ -7,6 +7,8 @@ import {MovieCrewApi} from './providers/movie-crew-api/movie-crew-api';
 
 import {DataStorage} from './providers/data-storage/data-storage';
 
+import { LoginPage } from './pages/login/login';
+
 
 @Component({
   template: '<ion-nav [root]="rootPage"></ion-nav>'
@@ -16,7 +18,7 @@ export class MyApp {
   public rootPage: any;
 
   constructor(private platform: Platform) {
-    this.rootPage = TabsPage;
+    this.rootPage = LoginPage;
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.

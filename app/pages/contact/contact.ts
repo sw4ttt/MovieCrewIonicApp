@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Nav, Tabs} from 'ionic-angular';
 
 import { HomePage } from '../home/home';
 
@@ -7,13 +7,19 @@ import { HomePage } from '../home/home';
   templateUrl: 'build/pages/contact/contact.html'
 })
 export class ContactPage {
-  constructor(public navCtrl: NavController) {
-  }
+
+
+    constructor(public navCtrl: NavController) 
+    {
+    }
   
-  back()
-  {
-      //this.mcaProvider.setMessage("Home rocks!");
-      //this.mcaProvider.getMovie();
-      this.navCtrl.push(HomePage);
-  }
+    back()
+    {
+        //this.mcaProvider.setMessage("Home rocks!");
+        //this.mcaProvider.getMovie();
+        this.navCtrl.push(HomePage);
+    }
+
+
+
 }

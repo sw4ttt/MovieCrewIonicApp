@@ -5,12 +5,16 @@ import { LoadingController } from 'ionic-angular';
 import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 
+import { TabsPage } from '../tabs/tabs';
+
 import { MovieCrewApi } from '../../providers/movie-crew-api/movie-crew-api';
 
 import { DataStorage } from '../../providers/data-storage/data-storage';
 
 import {Validators, FormBuilder } from '@angular/forms';
 import { ToastController } from 'ionic-angular';
+
+import { App } from 'ionic-angular';
 
 
 /*
@@ -29,7 +33,7 @@ export class LoginPage
 
     public showRowErrors: any;
 
-    public tabRef: Tabs;   
+
 
     constructor(
         private navCtrl: NavController
@@ -37,7 +41,8 @@ export class LoginPage
         ,private mcaProvider: MovieCrewApi
         ,private formBuilder: FormBuilder
         ,public toastCtrl: ToastController
-        ,private dataStorage: DataStorage) 
+        ,private dataStorage: DataStorage
+        ,private app: App) 
     {
         /*this.loadingItem = this.loadingCtrl.create({
             content: "Please wait...",
@@ -50,8 +55,14 @@ export class LoginPage
             password: ['boner', Validators.compose([Validators.required, Validators.minLength(4)])]
         });
 
-        this.tabRef = this.navCtrl.parent;
+        //this.tabRef = this.navCtrl.parent;
+
         
+    }
+
+    ionViewDidLeave()
+    {
+        console.log("OUT - LOGIN");
     }
     
     ionViewDidEnter() 
@@ -61,12 +72,25 @@ export class LoginPage
         password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
         });*/
 
-        this.tabRef.select(1);
+        //this.tabRef.select(1);
     }
+
+    /*ionCanViewLeave(): boolean
+    {
+        // here we can either return true or false
+        // depending on if we want to leave this view
+        if (this.logged)
+            return true;
+        else
+            return false;
+
+    }*/
 
     login()
     {
-        //console.log(this.formLogin.value.email); 
+        //console.log(this.formLogin.value.email);
+
+        console.log("LOGIN"); 
         
         this.showLoadingItem();
 
@@ -120,7 +144,7 @@ export class LoginPage
                 this.getUserCrews();
 
                 //this.navCtrl.setRoot(HomePage);
-                //his.navCtrl.push(HomePage);                             
+                //this.navCtrl.push(HomePage);                             
             }
         }, 
         error => 
@@ -152,23 +176,29 @@ export class LoginPage
 
                 this.dataStorage.setUserCrews(data);
 
+                //this.navCtrl.setRoot(HomePage);
+                //this.navCtrl.setRoot(TabsPage);
 
-                this.navCtrl.setRoot(HomePage);
+                const root = this.app.getRootNav();
+                
+                root.popToRoot();
+                root.setRoot(TabsPage);
 
-                this.navCtrl.popToRoot();
-                //this.navCtrl.push(HomePage);               
+                //this.navCtrl.popToRoot();
+                //this.navCtrl.push(HomePage).catch(()=> console.log('me fui?'));              
             }
         }, 
         error => 
         {
             console.log(error);
-            //this.hideLoadingItem();
+            this.hideLoadingItem();
             this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
-            this.navCtrl.push(LoginPage);
+            //this.navCtrl.push(LoginPage);
         });        
         
         //this.hideLoadingItem();
     }
+
 
     showErrors(errorText) 
     {

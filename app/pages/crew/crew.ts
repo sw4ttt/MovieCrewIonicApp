@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController , Nav , Tabs} from 'ionic-angular';
 
 /*
   Generated class for the CrewPage page.
@@ -12,8 +12,22 @@ import { NavController } from 'ionic-angular';
 })
 export class CrewPage {
 
-  constructor(private navCtrl: NavController) {
+    public tabRef: Tabs;   
 
-  }
+    constructor(private navCtrl: NavController) 
+    {
+        this.tabRef = this.navCtrl.parent;
+
+    }
+
+    ionViewDidEnter() 
+    {
+        /*this.formLogin = this.formBuilder.group({
+        email: ['', Validators.required],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+        });*/
+
+        this.tabRef.select(1);
+    }
 
 }

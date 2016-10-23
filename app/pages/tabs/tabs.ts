@@ -17,24 +17,15 @@ export class TabsPage {
   public tab2Root: any;
   public tab3Root: any;
   public tab4Root: any;
-  public tab5Root: any;
 
-  public selectedTab: any;
 
-  constructor(private dataStorage: DataStorage) {
+  constructor() {
     // this tells the tabs component which Pages
     // should be each tab's root Page
     this.tab1Root = HomePage;
-    this.tab2Root = LoginPage;
-    this.tab3Root = CrewPage;
-    this.tab4Root = ContactPage;
-    this.tab5Root = AboutPage;
-
-    this.selectedTab = this.dataStorage.selectedTab;    
+    //this.tab2Root = LoginPage;
+    this.tab2Root = CrewPage;
+    this.tab3Root = ContactPage;
+    this.tab4Root = AboutPage;  
   }
-
-      ionViewLoaded() 
-    {
-        this.selectedTab = this.dataStorage.selectedTab; 
-    }
 }

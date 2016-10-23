@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
+import { NavController, ViewController, Nav , Tabs } from 'ionic-angular';
 import {Http,Headers,RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { LoadingController } from 'ionic-angular';
@@ -27,6 +27,8 @@ export class HomePage
 
     public userText: any;
 
+    public tabRef: Tabs;  
+
     constructor(
         public navCtrl: NavController
         ,public navParams: NavParams
@@ -46,7 +48,24 @@ export class HomePage
         this.userCrews = this.dataStorage.userCrews;
         this.userText =  this.dataStorage.userName;
 
+        //this.dataStorage.selectedTab = "0";
+
         //this.getUserCrews();
+
+        this.dataStorage.selectedTab = 0;
+
+        this.tabRef = this.navCtrl.parent;        
+    }
+
+    
+    ionViewDidEnter() 
+    {
+        /*this.formLogin = this.formBuilder.group({
+        email: ['', Validators.required],
+        password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+        });*/
+
+        this.tabRef.select(0);
     }
     
     /*

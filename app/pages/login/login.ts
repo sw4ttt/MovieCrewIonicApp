@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController  , Nav , Tabs} from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 
 import { ContactPage } from '../contact/contact';
@@ -29,6 +29,8 @@ export class LoginPage
 
     public showRowErrors: any;
 
+    public tabRef: Tabs;   
+
     constructor(
         private navCtrl: NavController
         ,public loadingCtrlLogin: LoadingController
@@ -47,17 +49,20 @@ export class LoginPage
             email: ['sw4ttt@gmail.com', Validators.required],
             password: ['boner', Validators.compose([Validators.required, Validators.minLength(4)])]
         });
+
+        this.tabRef = this.navCtrl.parent;
         
     }
-    /*
-    ionViewLoaded() 
+    
+    ionViewDidEnter() 
     {
-        this.formLogin = this.formBuilder.group({
+        /*this.formLogin = this.formBuilder.group({
         email: ['', Validators.required],
         password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-        });
+        });*/
+
+        this.tabRef.select(1);
     }
-    */
 
     login()
     {
@@ -145,7 +150,9 @@ export class LoginPage
             {
                 //this.hideLoadingItem();
 
-                this.dataStorage.setUserCrews(data);  
+                this.dataStorage.setUserCrews(data);
+
+
                 this.navCtrl.setRoot(HomePage);
 
                 this.navCtrl.popToRoot();

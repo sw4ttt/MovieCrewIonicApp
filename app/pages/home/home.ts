@@ -11,12 +11,11 @@ import { ToastController } from 'ionic-angular';
 import { DataStorage } from '../../providers/data-storage/data-storage';
 
 import { Events } from 'ionic-angular';
-
 import { LoginPage } from '../login/login';
+import { CrewPage } from '../crew/crew';
 
 @Component({
-  templateUrl: 'build/pages/home/home.html',
-  providers: [LoadingController]
+  templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage 
 {
@@ -28,6 +27,7 @@ export class HomePage
     public userCrews: any;
 
     public userText: any;
+    public canLeave: boolean;
 
     constructor(
         public navCtrl: NavController
@@ -44,35 +44,28 @@ export class HomePage
             IMDBid: ['', Validators.required],
         });  
 
-        this.haveCrews = true;
-
+        
+        
         this.userCrews = this.dataStorage.userCrews;
-        this.userText =  this.dataStorage.userName;
-
-        this.ejecutarEventos(); 
-
-    }
-
-    ejecutarEventos()
-    {
-        this.events.subscribe('thatevento', () => 
+        if (!!this.userCrews["result"])
         {
-            // userEventData is an array of parameters, so grab our first and only arg
-            console.log("EVENTO GOOD CALL");
-        });  
+            this.haveCrews = false;
+        }
+        else
+        {
+            this.haveCrews = true;
+        }
+        this.userText =  this.dataStorage.userName;
     }
+
 
     clickCrew(crew_id,name) 
     {
         console.log("Click Crew id:"+crew_id+" : "+name);
+        this.navCtrl.push(CrewPage, {
+            crew_id: crew_id
+        });
     }
-
-
-    tapEvent($event,itemName) 
-    {
-        console.log("Tap "+itemName);
-    }
-    
 
     showErrors(errorText) 
     {

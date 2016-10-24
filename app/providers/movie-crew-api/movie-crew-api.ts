@@ -99,5 +99,23 @@ export class MovieCrewApi
         }); 
     }
 
+// GET the MOVIES that belong to an CREW.
+    getCrewMovies(crew_id)
+    {
+        //this.movieId = "tt0133093";
+        return new Promise(resolve => 
+        {
+            this.http.post("https://moviecrew.herokuapp.com/api/getcrewmovies?crew_id="+crew_id, '')
+            .subscribe(data => 
+            {
+                resolve(data.json());
+
+            }, error => 
+            {
+                resolve(error.json());
+            });
+        }); 
+    }
+
 }
 

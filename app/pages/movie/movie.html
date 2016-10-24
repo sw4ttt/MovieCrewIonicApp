@@ -7,12 +7,20 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>movie</ion-title>
+    <ion-title>Movie</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+    <ion-item>
+        <img item-left src="{{moviePoster}}">
+        <h1>{{movieTitle}}</h1>
+        <h2>Year: {{movieYear}}</h2>
+        <h2>IMDB: {{movieRatingIMDB}}</h2>
+        <p>{{moviePlot}}</p> 
+    </ion-item> 
 
 </ion-content>

@@ -13,6 +13,24 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+    <ion-grid>
+        <ion-row *ngIf="showMovies">
+            <ion-col width-67 offset-10>
+                <h1>CREW MOVIES</h1>
+                <ion-list>
+                    <ion-item *ngFor="let item of crewMovies" (press)="showMovieModal($event,item.title,item.plot,item.urlPoster,item.year,item.ratingIMDB)">
+                        <img item-left src="{{item.urlPoster}}">
+                        <h1>{{item.title}}</h1>
+                        <p>{{item.plot}}</p> 
+                    </ion-item> 
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!showMovies">
+            <ion-col width-67 offset-10>
+                <h1><ion-icon name="information-circle"></ion-icon> This Crew does't have any movie. </h1>
+            </ion-col> 
+        </ion-row>
+    </ion-grid>
 </ion-content>

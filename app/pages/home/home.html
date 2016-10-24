@@ -8,17 +8,17 @@
     <ion-grid>
         <ion-row *ngIf="haveCrews">
             <ion-col width-50 offset-25>
-                <ion-label color="primary" >USER CREWS</ion-label>
+                <h1>USER CREWS</h1>
                 <ion-item *ngFor="let item of userCrews">
-                    <button ion-button color="dark" clear icon-left (click)="clickCrew(item.id,item.name)">
-                        {{item.name}} <ion-icon name="arrow-dropright-circle"></ion-icon>
+                    <button ion-button large block round outline color="red" (click)="clickCrew(item.id,item.name)">
+                        <ion-icon icon-left margin-right="50px" name="logo-buffer"></ion-icon>{{item.name}}  <ion-icon margin-left="50px" name="arrow-dropright"></ion-icon>
                     </button>
                 </ion-item>
             </ion-col>
         </ion-row>
         <ion-row *ngIf="!haveCrews">
             <ion-col width-50 offset-25>
-                <ion-label color="primary" >You don't have any Crews <ion-icon name="sad"></ion-icon></ion-label>
+                <h1><ion-icon name="information-circle"></ion-icon> It appears that you don't have any movie list. </h1>
             </ion-col> 
         </ion-row>
     </ion-grid>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams  } from 'ionic-angular';
 
 /*
   Generated class for the MoviePage page.
@@ -12,8 +12,21 @@ import { NavController } from 'ionic-angular';
 })
 export class MoviePage {
 
-  constructor(private navCtrl: NavController) {
+    public movieTitle: any;
+    public moviePlot: any;
+    public moviePoster: any;
+    public movieRatingIMDB: any;
+    public movieYear: any;
 
-  }
+    constructor(private navCtrl: NavController,public params: NavParams)
+    {
+
+        this.movieTitle = params.get('movieTitle');
+        this.moviePlot = params.get('moviePlot');
+        this.moviePoster = params.get('moviePoster');
+        this.movieRatingIMDB = params.get('movieRatingIMDB');
+        this.movieYear = params.get('movieYear');
+
+    }
 
 }

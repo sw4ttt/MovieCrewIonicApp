@@ -25,8 +25,7 @@ import { Events } from 'ionic-angular';
   Ionic pages and navigation.
 */
 @Component({
-  templateUrl: 'build/pages/login/login.html',
-  providers: [LoadingController]
+  templateUrl: 'build/pages/login/login.html'
 })
 export class LoginPage 
 {
@@ -103,7 +102,7 @@ export class LoginPage
         .then(
         data => 
         {
-            if (!!data['result'])
+            if (!!data['error'])
             {
                 this.hideLoadingItem();
                 this.showErrors("Error: credentials.(login)");

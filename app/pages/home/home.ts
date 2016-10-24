@@ -6,9 +6,11 @@ import { LoadingController } from 'ionic-angular';
 import { MovieCrewApi } from '../../providers/movie-crew-api/movie-crew-api';
 import {Validators, FormBuilder } from '@angular/forms';
 import { NativeStorage } from 'ionic-native';
-import { NavParams } from 'ionic-angular';
+import { NavParams , ModalController} from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { DataStorage } from '../../providers/data-storage/data-storage';
+
+import { Events } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 
@@ -35,7 +37,8 @@ export class HomePage
         ,private formBuilder: FormBuilder
         ,public toastCtrl: ToastController
         ,private dataStorage: DataStorage
-        ,private viewCtrl: ViewController) 
+        ,private viewCtrl: ViewController
+        ,public events: Events) 
     {
         this.formHome = this.formBuilder.group({
             IMDBid: ['', Validators.required],
@@ -46,39 +49,30 @@ export class HomePage
         this.userCrews = this.dataStorage.userCrews;
         this.userText =  this.dataStorage.userName;
 
-        //this.dataStorage.selectedTab = "0";
+        this.ejecutarEventos(); 
 
-        //this.navCtrl.setRoot(TabsPage);
-
-        //this.getUserCrews();      
     }
 
-    
-    
-    /*
-    getCrewMovies(crew_id)
+    ejecutarEventos()
     {
-        this.showLoadingItem();
-
-        var user_id = "1";
-
-        this.mcaProvider.getUserCrews(user_id)
-        .then(
-        data => 
+        this.events.subscribe('thatevento', () => 
         {
-            console.log(data);
-            this.hideLoadingItem();
-            this.userCrews = data;
-            //this.navCtrl.push(HomePage);
-        }, 
-        error => 
-        {
-            console.log(error);
-            this.hideLoadingItem();
-            //this.navCtrl.push(LoginPage);
-        });
+            // userEventData is an array of parameters, so grab our first and only arg
+            console.log("EVENTO GOOD CALL");
+        });  
     }
-    */
+
+    clickCrew(crew_id,name) 
+    {
+        console.log("Click Crew id:"+crew_id+" : "+name);
+    }
+
+
+    tapEvent($event,itemName) 
+    {
+        console.log("Tap "+itemName);
+    }
+    
 
     showErrors(errorText) 
     {

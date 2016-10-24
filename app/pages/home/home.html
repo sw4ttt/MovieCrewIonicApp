@@ -5,42 +5,21 @@
 </ion-header>
  
 <ion-content>
-    <ion-grid>    
-        <form [formGroup]="formHome" (ngSubmit)="getUserCrews()">
-<!--
-            <ion-row>
-                <ion-col width-50 offset-25>
-                    <ion-item>
-                        <ion-label color="primary" floating blur>IMDBid USERID{{userId}}</ion-label>
-                        <ion-input type="text" formControlName="IMDBid"></ion-input>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col width-33 offset-33>
-                    <ion-item>
-                        <button ion-button block type="submit" [disabled]="!formHome.valid" icon-left>
-                            <ion-icon name="film"></ion-icon>
-                            Search Movie
-                        </button>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
- -->         
-            <ion-row *ngIf="haveCrews">
-                <ion-col width-50 offset-25>
-                    <ion-label color="primary" >USER CREWS</ion-label>
-                    <ion-item *ngFor="let item of userCrews">
-                        <ion-label color="primary" >{{item.id}}</ion-label>
-                        <ion-label color="primary" >{{item.name}}</ion-label>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
-            <ion-row *ngIf="!haveCrews">
-                <ion-col width-50 offset-25>
-                    <ion-label color="primary" >You don't have any Crews <ion-icon name="sad"></ion-icon></ion-label>
-                </ion-col>
-            </ion-row>
-        </form>
+    <ion-grid>
+        <ion-row *ngIf="haveCrews">
+            <ion-col width-50 offset-25>
+                <ion-label color="primary" >USER CREWS</ion-label>
+                <ion-item *ngFor="let item of userCrews">
+                    <button ion-button color="dark" clear icon-left (click)="clickCrew(item.id,item.name)">
+                        {{item.name}} <ion-icon name="arrow-dropright-circle"></ion-icon>
+                    </button>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!haveCrews">
+            <ion-col width-50 offset-25>
+                <ion-label color="primary" >You don't have any Crews <ion-icon name="sad"></ion-icon></ion-label>
+            </ion-col> 
+        </ion-row>
     </ion-grid>
 </ion-content>

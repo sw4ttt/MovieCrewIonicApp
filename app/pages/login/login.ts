@@ -16,6 +16,8 @@ import { ToastController } from 'ionic-angular';
 
 import { App } from 'ionic-angular';
 
+import { Events } from 'ionic-angular';
+
 
 /*
   Generated class for the LoginPage page.
@@ -42,7 +44,8 @@ export class LoginPage
         ,private formBuilder: FormBuilder
         ,public toastCtrl: ToastController
         ,private dataStorage: DataStorage
-        ,private app: App) 
+        ,private app: App
+        ,public events: Events) 
     {
         /*this.loadingItem = this.loadingCtrl.create({
             content: "Please wait...",
@@ -63,6 +66,7 @@ export class LoginPage
     ionViewDidLeave()
     {
         console.log("OUT - LOGIN");
+        //this.events.publish('thatevento');
     }
     
     ionViewDidEnter() 
@@ -92,6 +96,7 @@ export class LoginPage
 
         console.log("LOGIN"); 
         
+        
         this.showLoadingItem();
 
         this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password)
@@ -108,7 +113,7 @@ export class LoginPage
             {
                 this.dataStorage.setUserToken(data['token']);
 
-                //console.log(data);               
+                console.log(data);               
 
                 this.getUserInfo(data['token']);
             }                    

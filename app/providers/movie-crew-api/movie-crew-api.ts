@@ -14,18 +14,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class MovieCrewApi
 {
-    public userToken: any;
-    public userId: any;
-    public userName: any;
-    public userEmail: any;
-
     constructor(private http: Http) 
-    {
-        this.userToken = 'empty';
-        this.userId = 'empty';
-        this.userName = 'empty';
-        this.userEmail = 'empty';
-        
+    {        
     }
 
 // User Login method. returns session token. the token must be used on api requests.
@@ -82,12 +72,12 @@ export class MovieCrewApi
     }
 
 // GET the CREWS that belong to an user.
-    getUserCrews(userId)
+    getUserCrews(userId,token)
     {
         //this.movieId = "tt0133093";
         return new Promise(resolve => 
         {
-            this.http.post("https://moviecrew.herokuapp.com/api/getusercrews?user_id="+userId, '')
+            this.http.post("https://moviecrew.herokuapp.com/api/getusercrews?user_id="+userId+"&token="+token, '')
             .subscribe(data => 
             {
                 resolve(data.json());
@@ -100,12 +90,13 @@ export class MovieCrewApi
     }
 
 // GET the MOVIES that belong to an CREW.
-    getCrewMovies(crew_id)
+    getCrewMovies(crew_id,token)
     {
         //this.movieId = "tt0133093";
+        
         return new Promise(resolve => 
         {
-            this.http.post("https://moviecrew.herokuapp.com/api/getcrewmovies?crew_id="+crew_id, '')
+            this.http.post("https://moviecrew.herokuapp.com/api/getcrewmovies?crew_id="+crew_id+"&token="+token, '')
             .subscribe(data => 
             {
                 resolve(data.json());

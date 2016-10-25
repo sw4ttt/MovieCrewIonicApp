@@ -42,11 +42,10 @@ export class HomePage
     {
         this.formHome = this.formBuilder.group({
             IMDBid: ['', Validators.required],
-        });  
-
-        
+        });          
         
         this.userCrews = this.dataStorage.userCrews;
+        
         if (!!this.userCrews["result"])
         {
             this.haveCrews = false;

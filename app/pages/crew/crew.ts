@@ -6,6 +6,7 @@ import { LoadingController } from 'ionic-angular';
 import { NavParams , ModalController} from 'ionic-angular';
 
 import { MoviePage } from '../movie/movie';
+import { DataStorage } from '../../providers/data-storage/data-storage';
 
 /*
   Generated class for the CrewPage page.
@@ -28,11 +29,9 @@ export class CrewPage {
         public toastCtrl: ToastController,
         public loadingCtrl: LoadingController,
         public params: NavParams,
-        public modalCtrl: ModalController) 
+        public modalCtrl: ModalController,
+        private dataStorage: DataStorage) 
     {
-        this.crewMovies = "empty";
-        this.showMovies = false;
-
         var crew_id = this.params.get('crew_id');
 
         if (!!crew_id)
@@ -53,10 +52,10 @@ export class CrewPage {
     {       
         this.showLoadingItem();
         //this.showLoadingItemWithTime();
+        
+        var token = this.dataStorage.userToken;
 
-        console.log("getCrewMovies id= "+crew_id);
-
-        this.mcaProvider.getCrewMovies(crew_id)
+        this.mcaProvider.getCrewMovies(crew_id,token)
         .then(
         data => 
         {
@@ -64,7 +63,7 @@ export class CrewPage {
             if (!!data['error'])
             {
                 //this.hideLoadingItem();
-                this.showErrors("Error: in Data getting Crew Movies.(getCrewMovies)");
+                this.showErrors("Error: (getCrewMovies): "+data['error']);
                 console.log(data);
             }
             else

@@ -32,10 +32,6 @@ export class LoginPage
     public loadingItem: any;
     public formLogin: any;
 
-    public showRowErrors: any;
-
-
-
     constructor(
         private navCtrl: NavController
         ,public loadingCtrlLogin: LoadingController
@@ -62,40 +58,10 @@ export class LoginPage
         
     }
 
-    ionViewDidLeave()
-    {
-        console.log("OUT - LOGIN");
-        //this.events.publish('thatevento');
-    }
-    
-    ionViewDidEnter() 
-    {
-        /*this.formLogin = this.formBuilder.group({
-        email: ['', Validators.required],
-        password: ['', Validators.compose([Validators.required, Validators.minLength(4)])],
-        });*/
-
-        //this.tabRef.select(1);
-    }
-
-    /*ionCanViewLeave(): boolean
-    {
-        // here we can either return true or false
-        // depending on if we want to leave this view
-        if (this.logged)
-            return true;
-        else
-            return false;
-
-    }*/
 
     login()
     {
-        //console.log(this.formLogin.value.email);
 
-        console.log("LOGIN"); 
-        
-        
         this.showLoadingItem();
 
         this.mcaProvider.login(this.formLogin.value.email,this.formLogin.value.password)
@@ -105,15 +71,12 @@ export class LoginPage
             if (!!data['error'])
             {
                 this.hideLoadingItem();
-                this.showErrors("Error: credentials.(login)");
+                this.showErrors("Error: (login): "+data['error']);
                 //console.log(data);                
             }
             else
             {
                 this.dataStorage.setUserToken(data['token']);
-
-                console.log(data);               
-
                 this.getUserInfo(data['token']);
             }                    
         }, 
@@ -124,6 +87,7 @@ export class LoginPage
             //this.navCtrl.pop();
         });
     }
+
     getUserInfo(token)
     {
         this.mcaProvider.getUser(token)
@@ -133,7 +97,7 @@ export class LoginPage
             if (!!data['error'])
             {
                 this.hideLoadingItem();
-                this.showErrors("Error: in Data getting User Info.(getUserInfo)");
+                this.showErrors("Error: (getUserInfo): "+data['error']);
                 //console.log(data);
             }
             else
@@ -145,7 +109,7 @@ export class LoginPage
                 this.dataStorage.setUserName(data['name']);
                 this.dataStorage.setUserEmail(data['email']);
 
-                this.getUserCrews();
+                this.getUserCrews(token);
 
                 //this.navCtrl.setRoot(HomePage);
                 //this.navCtrl.push(HomePage);                             
@@ -160,36 +124,33 @@ export class LoginPage
         });  
     }
 
-    getUserCrews()
+    getUserCrews(token)
     {
         //this.showLoadingItem();
         
-        this.mcaProvider.getUserCrews(this.dataStorage.userId)
+        this.mcaProvider.getUserCrews(this.dataStorage.userId,token)
         .then(
         data => 
         {
-            if (!!data['user_id'])
+            if (!!data['error'])
             {
                 this.hideLoadingItem();
-                this.showErrors("Error: in Data getting User Crews.(getUserCrews - Data)");
+                this.showErrors("Error: (getUserCrews): "+data['error']);
                 //console.log(data);
             }
             else
-            {
-                //this.hideLoadingItem();
+            {   
+                //this.hideLoadingItem(); NO ES NECESARIO, se tiene activo dismissOnPageChange.            
 
                 this.dataStorage.setUserCrews(data);
 
-                //this.navCtrl.setRoot(HomePage);
-                //this.navCtrl.setRoot(TabsPage);
-
-                const root = this.app.getRootNav();
+                console.log(data);                
                 
-                root.popToRoot();
+                const root = this.app.getRootNav();
+                root.popToRoot();  
                 root.setRoot(TabsPage);
+                             
 
-                //this.navCtrl.popToRoot();
-                //this.navCtrl.push(HomePage).catch(()=> console.log('me fui?'));              
             }
         }, 
         error => 
@@ -228,21 +189,4 @@ export class LoginPage
     {
         this.loadingItem.dismiss();
     }
-
-    /*
-    presentLoading() {
-    let loader = this.loadingCtrl.create({
-        content: "Please wait...",
-        duration: 3000
-    });
-    loader.present();
-
-
-    loader.onDidDismiss(() => {
-    this.navCtrl.push(ContactPage);
-    });
-    }
-    */
-
-
 }

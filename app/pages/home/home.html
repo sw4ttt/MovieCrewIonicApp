@@ -1,17 +1,33 @@
 <ion-header> 
-    <ion-navbar>
-        <ion-title>Home <ion-icon name="md-person"></ion-icon> {{userText}}</ion-title>
+    <ion-navbar>        
+        <ion-toolbar no-border-bottom>
+            <ion-title>Home <ion-icon name="md-person"></ion-icon> {{userText}}</ion-title>
+            <ion-buttons start>
+                <button ion-button >
+                    <ion-icon name="contact" ></ion-icon>
+                </button>
+                <button ion-button >
+                    <ion-icon name="menu"></ion-icon>
+                </button>
+            </ion-buttons>
+        </ion-toolbar>
     </ion-navbar> 
+
 </ion-header>
  
 <ion-content>
     <ion-grid>
         <ion-row *ngIf="haveCrews">
             <ion-col width-50 offset-25>
-                <h1>USER CREWS</h1>
+                <h1 id="crewMessage">Your CREWS</h1>
+                <ion-buttons end>
+                    <button id="addCrewButton" ion-button round outline color="dark" (click)="addCrewAlert()"> Add Crew
+                        <ion-icon name="add"></ion-icon>
+                    </button>
+                </ion-buttons>
                 <ion-item *ngFor="let item of userCrews">
-                    <button ion-button large block round outline color="red" (click)="clickCrew(item.id,item.name)">
-                        <ion-icon icon-left margin-right="50px" name="logo-buffer"></ion-icon>{{item.name}}  <ion-icon margin-left="50px" name="arrow-dropright"></ion-icon>
+                    <button id="crewButton" ion-button large block round outline (click)="selectCrew(item.id,item.name)" >
+                        <ion-icon icon-left margin-right="50px" style="color:rgb(0, 0, 100);" name="logo-buffer"></ion-icon>{{item.name}}  <ion-icon margin-left="50px" name="arrow-dropright"></ion-icon>
                     </button>
                 </ion-item>
             </ion-col>

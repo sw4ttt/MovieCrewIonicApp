@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ViewController, Nav , Tabs } from 'ionic-angular';
 import {Http,Headers,RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController , AlertController} from 'ionic-angular';
 import { MovieCrewApi } from '../../providers/movie-crew-api/movie-crew-api';
 import {Validators, FormBuilder } from '@angular/forms';
 import { NativeStorage } from 'ionic-native';
@@ -30,20 +30,23 @@ export class HomePage
     public canLeave: boolean;
 
     constructor(
-        public navCtrl: NavController
-        ,public navParams: NavParams
-        , private mcaProvider: MovieCrewApi
-        ,public loadingCtrlHome: LoadingController
-        ,private formBuilder: FormBuilder
-        ,public toastCtrl: ToastController
-        ,private dataStorage: DataStorage
-        ,private viewCtrl: ViewController
-        ,public events: Events) 
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        private mcaProvider: MovieCrewApi,
+        public loadingCtrlHome: LoadingController,
+        private formBuilder: FormBuilder,
+        public toastCtrl: ToastController,
+        private dataStorage: DataStorage,
+        private viewCtrl: ViewController,
+        public events: Events,
+        private alertCtrl: AlertController) 
+    {  
+   
+    }
+
+    ionViewWillEnter()
     {
-        this.formHome = this.formBuilder.group({
-            IMDBid: ['', Validators.required],
-        });          
-        
+
         this.userCrews = this.dataStorage.userCrews;
         
         if (!!this.userCrews["result"])
@@ -55,12 +58,13 @@ export class HomePage
             this.haveCrews = true;
         }
         this.userText =  this.dataStorage.userName;
+
     }
 
 
-    clickCrew(crew_id,name) 
+    selectCrew(crew_id,name) 
     {
-        console.log("Click Crew id:"+crew_id+" : "+name);
+        console.log("selectCrew id:("+crew_id+") Name:("+name+")");
         this.navCtrl.push(CrewPage, {
             crew_id: crew_id
         });
@@ -70,7 +74,7 @@ export class HomePage
     {
         let toast = this.toastCtrl.create({
             message: errorText,
-            duration: 3000,
+            duration: 2000,
             position: 'middle'
         });
         toast.present();
@@ -95,9 +99,98 @@ export class HomePage
     {
         let loading = this.loadingCtrlHome.create({
             content: 'Please wait... con Tiempo 5seg.',
-            duration: 5000
+            duration: 5000,
+            dismissOnPageChange: true
         });
 
         loading.present();
     }
+
+    addCrewAlert()
+    {
+        let alert = this.alertCtrl.create({
+        title: 'Add Crew',
+        inputs: 
+        [
+            {
+                name: 'crewName',
+                placeholder: 'Crew Name'
+            }
+        ],
+        buttons: 
+        [
+            {
+                text: 'Cancel',
+                role: 'cancel',
+                handler: data => {
+                console.log('Cancel clicked');
+                }
+            },
+            {
+                text: 'Add',
+                handler: data => 
+                {
+                    //data.username, data.password
+                    console.log("addCrewAlert crewName:("+data.crewName+")");               
+                    this.addCrew(data.crewName);
+                    //this.testStuff();
+                }
+            }
+        ]
+        });
+        alert.present();
+    }
+
+    testStuff()
+    {
+        console.log("stuff");
+    }
+
+    addCrew(name)
+    {
+        if (name == '')
+        {
+             this.showErrors("Error: you must enter a crew name.");
+        }
+        else
+        {  
+            console.log('PASO TODO');
+            /* 
+                       
+            this.showLoadingItem();
+            
+            this.mcaProvider.addCrew(name,this.dataStorage.userId,this.dataStorage.userToken)
+            .then(
+            data => 
+            {
+                if (!!data['error'])
+                {
+                    this.hideLoadingItem();
+                    this.showErrors("Error: (addCrew): "+data['error']);
+                    //console.log(data);
+                }
+                else
+                {   
+                    this.hideLoadingItem();         
+
+                    console.log(data);
+                    console.log("GOOD - se creo el CREW");
+                }
+            }, 
+            error => 
+            {
+                console.log(error);
+                this.hideLoadingItem();
+                this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
+                //this.navCtrl.push(LoginPage);
+            }); 
+            */ 
+            
+
+        }
+      
+        
+        //this.hideLoadingItem();
+    }
+    
 }

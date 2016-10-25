@@ -108,5 +108,22 @@ export class MovieCrewApi
         }); 
     }
 
+// ADD Crew to user.
+    addCrew(name,user_id,token)
+    {
+        return new Promise(resolve => 
+        {
+            this.http.post("https://moviecrew.herokuapp.com/api/createcrew?name="+name+"&user_id="+user_id+"&token="+token, '')
+            .subscribe(data => 
+            {
+                resolve(data.json());
+
+            }, error => 
+            {
+                resolve(error.json());
+            });
+        }); 
+    }
+
 }
 

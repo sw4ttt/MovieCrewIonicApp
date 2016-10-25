@@ -44,7 +44,11 @@ export class CrewPage {
         {
             console.log("Crew ID - NOT SET in PARAMS");
             this.showMovies = false;
-        }            
+        }  
+    }
+
+    ionViewWillEnter()
+    { 
 
     }
 
@@ -59,28 +63,28 @@ export class CrewPage {
         .then(
         data => 
         {
-            //this.showLoadingItem();
             if (!!data['error'])
             {
-                //this.hideLoadingItem();
-                this.showErrors("Error: (getCrewMovies): "+data['error']);
-                console.log(data);
+                
+                //this.showErrors("Error: (getCrewMovies): "+data['error']);
+                console.log("getCrewMovies DATA ERROR:("+data+")"); 
+                this.hideLoadingItem();
             }
             else
             {
                 //console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
-                console.log(data);
+                console.log("getCrewMovies DATA :("+data+")"); 
 
                 this.crewMovies = data;
                 this.showMovies = true;
                 
-                //this.hideLoadingItem();                     
+                this.hideLoadingItem();                     
             }
         }, 
         error => 
         {
-            //this.hideLoadingItem();
-            console.log(error);
+            this.hideLoadingItem();
+            console.log("getCrewMovies ERROR :("+error+")"); 
             //this.navCtrl.pop();
             this.showErrors("Error: in Data getting Crew Movies 2.(getCrewMovies)");
         });  
@@ -90,7 +94,7 @@ export class CrewPage {
     {
         let toast = this.toastCtrl.create({
             message: errorText,
-            duration: 3000,
+            duration: 2000,
             position: 'middle'
         });
         toast.present();

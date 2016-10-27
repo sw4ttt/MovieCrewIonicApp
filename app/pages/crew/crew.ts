@@ -47,11 +47,6 @@ export class CrewPage {
         }  
     }
 
-    ionViewWillEnter()
-    { 
-
-    }
-
     getCrewMovies(crew_id)
     {       
         this.showLoadingItem();

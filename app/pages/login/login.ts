@@ -125,9 +125,7 @@ export class LoginPage
     }
 
     getUserCrews(token)
-    {
-        //this.showLoadingItem();
-        
+    {        
         this.mcaProvider.getUserCrews(this.dataStorage.userId,token)
         .then(
         data => 
@@ -158,10 +156,7 @@ export class LoginPage
             console.log(error);
             this.hideLoadingItem();
             this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
-            //this.navCtrl.push(LoginPage);
         });        
-        
-        //this.hideLoadingItem();
     }
 
 

@@ -32,6 +32,11 @@ export class CrewPage {
         public modalCtrl: ModalController,
         private dataStorage: DataStorage) 
     {
+
+    }
+
+    ionViewWillEnter()
+    {
         var crew_id = this.params.get('crew_id');
 
         if (!!crew_id)
@@ -45,11 +50,12 @@ export class CrewPage {
             console.log("Crew ID - NOT SET in PARAMS");
             this.showMovies = false;
         }  
+
     }
 
     getCrewMovies(crew_id)
     {       
-        this.showLoadingItem();
+        //this.showLoadingItem();
         //this.showLoadingItemWithTime();
         
         var token = this.dataStorage.userToken;
@@ -58,15 +64,17 @@ export class CrewPage {
         .then(
         data => 
         {
+            this.showLoadingItem();
             if (!!data['error'])
             {
                 
                 //this.showErrors("Error: (getCrewMovies): "+data['error']);
-                console.log("getCrewMovies DATA ERROR:("+data+")"); 
+                console.log("getCrewMovies DATA ERROR:("+data['error']+")"); 
                 this.hideLoadingItem();
             }
             else
             {
+                //this.showLoadingItem();
                 //console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
                 console.log("getCrewMovies DATA :("+data+")"); 
 
@@ -78,7 +86,7 @@ export class CrewPage {
         }, 
         error => 
         {
-            this.hideLoadingItem();
+            //this.hideLoadingItem();
             console.log("getCrewMovies ERROR :("+error+")"); 
             //this.navCtrl.pop();
             this.showErrors("Error: in Data getting Crew Movies 2.(getCrewMovies)");

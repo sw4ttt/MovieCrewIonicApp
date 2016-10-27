@@ -40,25 +40,66 @@ export class HomePage
         private viewCtrl: ViewController,
         public events: Events,
         private alertCtrl: AlertController) 
-    {  
+    { 
+        this.userCrews = this.dataStorage.userCrews; 
    
     }
 
-    ionViewWillEnter()
+    /*ionViewWillEnter()
     {
+        console.log("HOME ionViewWillEnter");
 
         this.userCrews = this.dataStorage.userCrews;
         
         if (!!this.userCrews["result"])
         {
             this.haveCrews = false;
+            console.log("HOME: SIN CREWS");
         }
         else
         {
             this.haveCrews = true;
+            
+            console.log("------------------------");
+            console.log("START --- HOME userCrews");
+            this.userCrews.forEach(element => {
+                console.log("------Crew: "+element.name);
+            });
+            console.log("END --- HOME userCrews");
+            console.log("------------------------");
         }
         this.userText =  this.dataStorage.userName;
+    }*/
 
+    ionViewDidEnter()
+    {
+        console.log("HOME ionViewDidEnter");
+
+        this.userCrews = this.dataStorage.userCrews;
+
+        
+        console.log("this.dataStorage.userCrews");
+        console.log(this.dataStorage.userCrews);
+        
+        if (!!this.userCrews["result"])
+        {
+            this.haveCrews = false;
+            console.log("HOME: SIN CREWS");
+        }
+        else
+        {
+            this.haveCrews = true;
+
+            console.log("------------------------");
+            console.log("START --- HOME userCrews");
+            this.userCrews.forEach(element => {
+                console.log("------Crew: "+element.name);
+            });
+            console.log("END --- HOME userCrews");
+            console.log("------------------------");
+        }
+        this.userText =  this.dataStorage.userName;
+        
     }
 
 
@@ -130,20 +171,13 @@ export class HomePage
                 text: 'Add',
                 handler: data => 
                 {
-                    //data.username, data.password
                     console.log("addCrewAlert crewName:("+data.crewName+")");               
                     this.addCrew(data.crewName);
-                    //this.testStuff();
                 }
             }
         ]
         });
         alert.present();
-    }
-
-    testStuff()
-    {
-        console.log("stuff");
     }
 
     addCrew(name)
@@ -154,8 +188,7 @@ export class HomePage
         }
         else
         {  
-            console.log('PASO TODO');
-            /* 
+            console.log('addCrew(name)');
                        
             this.showLoadingItem();
             
@@ -163,18 +196,22 @@ export class HomePage
             .then(
             data => 
             {
+                //this.showLoadingItem();
                 if (!!data['error'])
                 {
                     this.hideLoadingItem();
                     this.showErrors("Error: (addCrew): "+data['error']);
-                    //console.log(data);
+                    console.log(data);
                 }
                 else
                 {   
-                    this.hideLoadingItem();         
+                    //this.hideLoadingItem();    
+                    //this.dataStorage.setUserCrews(data);    
 
                     console.log(data);
-                    console.log("GOOD - se creo el CREW");
+                    console.log("addCrew(name) - DATA");
+
+                    this.getUserCrews(this.dataStorage.userToken);
                 }
             }, 
             error => 
@@ -183,14 +220,35 @@ export class HomePage
                 this.hideLoadingItem();
                 this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
                 //this.navCtrl.push(LoginPage);
-            }); 
-            */ 
-            
-
+            });
         }
-      
-        
-        //this.hideLoadingItem();
+    }
+    
+    getUserCrews(token)
+    {        
+        this.mcaProvider.getUserCrews(this.dataStorage.userId,token)
+        .then(
+        data => 
+        {
+            if (!!data['error'])
+            {
+                this.hideLoadingItem();
+                this.showErrors("Error: (getUserCrews): "+data['error']);
+                //console.log(data);
+            }
+            else
+            {
+                this.dataStorage.setUserCrews(data);
+                this.hideLoadingItem();  
+                console.log("addCrew(name) - DATA - getUserCrews(token)");
+            }
+        }, 
+        error => 
+        {
+            console.log(error);
+            this.hideLoadingItem();
+            this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
+        });        
     }
     
 }

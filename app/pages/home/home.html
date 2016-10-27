@@ -25,11 +25,26 @@
                         <ion-icon name="add"></ion-icon>
                     </button>
                 </ion-buttons>
-                <ion-item *ngFor="let item of userCrews">
-                    <button id="crewButton" ion-button large block round outline (click)="selectCrew(item.id,item.name)" >
-                        <ion-icon icon-left margin-right="50px" style="color:rgb(0, 0, 100);" name="logo-buffer"></ion-icon>{{item.name}}  <ion-icon margin-left="50px" name="arrow-dropright"></ion-icon>
-                    </button>
-                </ion-item>
+                <ion-list>
+                    <ion-item-sliding *ngFor="let item of userCrews">
+                        <!--<button id="crewButton" ion-button large block round outline (click)="selectCrew(item.id,item.name)" >
+                            <ion-icon icon-left margin-right="50px" style="color:rgb(0, 0, 100);" name="logo-buffer"></ion-icon>{{item.name}}  <ion-icon margin-left="50px" name="arrow-dropright"></ion-icon>
+                        </button>-->
+                        <ion-item (click)="selectCrew(item.id,item.name)">
+                            <ion-icon icon-left margin-right="50px" style="color:rgb(0, 0, 100);" name="logo-buffer"></ion-icon>
+                            {{item.name}}
+                        </ion-item>
+                        <ion-item-options>
+                            <button light>
+                                <ion-icon name="paper"></ion-icon>
+                            </button>
+                            <button danger>
+                                <ion-icon name="trash"></ion-icon>
+                            </button>
+                        </ion-item-options>
+                    </ion-item-sliding>
+                </ion-list>
+
             </ion-col>
         </ion-row>
         <ion-row *ngIf="!haveCrews">

@@ -29,4 +29,9 @@ export class MoviePage {
 
     }
 
+    close()
+    {
+        this.navCtrl.pop();
+    }
+
 }

@@ -18,8 +18,8 @@
         <ion-row *ngIf="showMovies">
             <ion-col width-67 offset-10>
                 <h1>CREW MOVIES</h1>
-                <ion-list>
-                    <ion-item *ngFor="let item of crewMovies" (press)="showMovieModal($event,item.title,item.plot,item.urlPoster,item.year,item.ratingIMDB)">
+                <ion-list *ngFor="let item of crewMovies">
+                    <ion-item (press)="showMovieModal($event,item.title,item.plot,item.urlPoster,item.year,item.ratingIMDB)">
                         <img item-left src="{{item.urlPoster}}">
                         <h1>{{item.title}}</h1>
                         <p>{{item.plot}}</p> 

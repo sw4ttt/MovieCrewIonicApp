@@ -45,41 +45,15 @@ export class HomePage
    
     }
 
-    /*ionViewWillEnter()
-    {
-        console.log("HOME ionViewWillEnter");
-
-        this.userCrews = this.dataStorage.userCrews;
-        
-        if (!!this.userCrews["result"])
-        {
-            this.haveCrews = false;
-            console.log("HOME: SIN CREWS");
-        }
-        else
-        {
-            this.haveCrews = true;
-            
-            console.log("------------------------");
-            console.log("START --- HOME userCrews");
-            this.userCrews.forEach(element => {
-                console.log("------Crew: "+element.name);
-            });
-            console.log("END --- HOME userCrews");
-            console.log("------------------------");
-        }
-        this.userText =  this.dataStorage.userName;
-    }*/
-
     ionViewDidEnter()
     {
-        console.log("HOME ionViewDidEnter");
+        console.log("HOME: ionViewDidEnter");
 
         this.userCrews = this.dataStorage.userCrews;
 
         
-        console.log("this.dataStorage.userCrews");
-        console.log(this.dataStorage.userCrews);
+        //console.log("this.dataStorage.userCrews");
+        //console.log(this.dataStorage.userCrews);
         
         if (!!this.userCrews["result"])
         {
@@ -89,7 +63,8 @@ export class HomePage
         else
         {
             this.haveCrews = true;
-
+            console.log("HOME: CON CREWS");
+            /*
             console.log("------------------------");
             console.log("START --- HOME userCrews");
             this.userCrews.forEach(element => {
@@ -97,6 +72,7 @@ export class HomePage
             });
             console.log("END --- HOME userCrews");
             console.log("------------------------");
+            */
         }
         this.userText =  this.dataStorage.userName;
         
@@ -105,7 +81,7 @@ export class HomePage
 
     selectCrew(crew_id,name) 
     {
-        console.log("selectCrew id:("+crew_id+") Name:("+name+")");
+        console.log("HOME: selectCrew id:("+crew_id+") Name:("+name+")");
         this.navCtrl.push(CrewPage, {
             crew_id: crew_id
         });
@@ -123,6 +99,7 @@ export class HomePage
 
     showLoadingItem()
     {
+        console.log("HOME: showLoadingItem");
         this.loadingItem = this.loadingCtrlHome.create({
             content: "Please wait... HOME",
             dismissOnPageChange: true
@@ -133,6 +110,7 @@ export class HomePage
 
     hideLoadingItem()
     {
+        console.log("HOME: hideLoadingItem");
         this.loadingItem.dismiss();
     }
 

@@ -35,27 +35,29 @@ export class CrewPage {
 
     }
 
-    ionViewWillEnter()
+    ionViewDidEnter()
     {
+        console.log("CREW: ionViewDidEnter");
         var crew_id = this.params.get('crew_id');
 
         if (!!crew_id)
         {
-            console.log("Crew ID - SET in PARAMS: id= "+crew_id);
+            console.log("CREW: Crew ID - SET in PARAMS: id= "+crew_id);
 
             this.getCrewMovies(crew_id);
         }
         else
         {
-            console.log("Crew ID - NOT SET in PARAMS");
+            console.log("CREW: Crew ID - NOT SET in PARAMS");
             this.showMovies = false;
         }  
 
     }
 
     getCrewMovies(crew_id)
-    {       
-        //this.showLoadingItem();
+    {    
+        console.log("CREW: getCrewMovies ini ");    
+        this.showLoadingItem();
         //this.showLoadingItemWithTime();
         
         var token = this.dataStorage.userToken;
@@ -64,19 +66,21 @@ export class CrewPage {
         .then(
         data => 
         {
-            this.showLoadingItem();
+            //this.showLoadingItem();
             if (!!data['error'])
             {
                 
                 //this.showErrors("Error: (getCrewMovies): "+data['error']);
-                console.log("getCrewMovies DATA ERROR:("+data['error']+")"); 
+                console.log("CREW: getCrewMovies DATA ERROR:("+data['error']+")"); 
                 this.hideLoadingItem();
             }
             else
             {
                 //this.showLoadingItem();
                 //console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
-                console.log("getCrewMovies DATA :("+data+")"); 
+                //console.log("getCrewMovies DATA :("+data+")"); 
+                console.log("CREW: getCrewMovies DATA "); 
+
 
                 this.crewMovies = data;
                 this.showMovies = true;
@@ -95,6 +99,7 @@ export class CrewPage {
 
     showErrors(errorText) 
     {
+        console.log("CREW: showErrors");
         let toast = this.toastCtrl.create({
             message: errorText,
             duration: 2000,
@@ -105,6 +110,7 @@ export class CrewPage {
 
     showLoadingItem()
     {
+        console.log("CREW: showLoadingItem");
         this.loadingItem = this.loadingCtrl.create({
             content: "Please wait...CREW",
             dismissOnPageChange: true
@@ -115,11 +121,13 @@ export class CrewPage {
 
     hideLoadingItem()
     {
+        console.log("CREW: hideLoadingItem");
         this.loadingItem.dismiss();
     }
 
     showLoadingItemWithTime() 
     {
+        console.log("CREW: showLoadingItemWithTime");
         let loading = this.loadingCtrl.create({
             content: 'Please wait... con Tiempo 5seg.',
             duration: 5000

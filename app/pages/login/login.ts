@@ -103,7 +103,7 @@ export class LoginPage
             else
             {
                 //console.log("LOGIN DISMISS XXXXXXXXXXXXXXXXXXXXXXXXXX");
-                console.log(data);
+                //console.log(data);
 
                 this.dataStorage.setUserId(data['id']);
                 this.dataStorage.setUserName(data['name']);
@@ -141,13 +141,12 @@ export class LoginPage
                 //this.hideLoadingItem(); NO ES NECESARIO, se tiene activo dismissOnPageChange.            
 
                 this.dataStorage.setUserCrews(data);
-
-                console.log(data);                
+                //console.log(data);
+                //console.log(data);
                 
                 const root = this.app.getRootNav();
                 root.popToRoot();  
                 root.setRoot(TabsPage);
-                             
 
             }
         }, 

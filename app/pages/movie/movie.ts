@@ -27,6 +27,9 @@ export class MoviePage {
         this.movieRatingIMDB = params.get('movieRatingIMDB');
         this.movieYear = params.get('movieYear');
 
+
+        console.log("MOVIE: constructor");
+
     }
 
 }

@@ -146,7 +146,8 @@ export class LoginPage
                 
                 const root = this.app.getRootNav();
                 root.popToRoot();  
-                root.setRoot(TabsPage);
+                //root.setRoot(TabsPage);
+                root.setRoot(HomePage);
 
             }
         }, 
@@ -181,6 +182,8 @@ export class LoginPage
 
     hideLoadingItem()
     {
-        this.loadingItem.dismiss();
+        setTimeout(() => {
+            this.loadingItem.dismiss();
+        }, 100);
     }
 }

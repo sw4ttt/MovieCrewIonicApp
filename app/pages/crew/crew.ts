@@ -33,11 +33,27 @@ export class CrewPage {
         private dataStorage: DataStorage) 
     {
 
+        console.log("CREW: constructor");
+        var crew_id = this.params.get('crew_id');
+
+        if (!!crew_id)
+        {
+            console.log("CREW: Crew ID - SET in PARAMS: id= "+crew_id);
+            //this.showLoadingItem();
+            this.getCrewMovies(crew_id);
+        }
+        else
+        {
+            console.log("CREW: Crew ID - NOT SET in PARAMS");
+            this.showMovies = false;
+        }        
+
     }
 
     ionViewDidEnter()
     {
         console.log("CREW: ionViewDidEnter");
+        /*
         var crew_id = this.params.get('crew_id');
 
         if (!!crew_id)
@@ -51,6 +67,7 @@ export class CrewPage {
             console.log("CREW: Crew ID - NOT SET in PARAMS");
             this.showMovies = false;
         }  
+        */
 
     }
 
@@ -67,12 +84,14 @@ export class CrewPage {
         data => 
         {
             //this.showLoadingItem();
+            this.hideLoadingItem();
+
             if (!!data['error'])
             {
                 
                 //this.showErrors("Error: (getCrewMovies): "+data['error']);
                 console.log("CREW: getCrewMovies DATA ERROR:("+data['error']+")"); 
-                this.hideLoadingItem();
+                //this.hideLoadingItem();
             }
             else
             {
@@ -85,15 +104,15 @@ export class CrewPage {
                 this.crewMovies = data;
                 this.showMovies = true;
                 
-                this.hideLoadingItem();                     
+                //this.hideLoadingItem();                     
             }
         }, 
         error => 
         {
-            //this.hideLoadingItem();
+            this.hideLoadingItem();
             console.log("getCrewMovies ERROR :("+error+")"); 
             //this.navCtrl.pop();
-            this.showErrors("Error: in Data getting Crew Movies 2.(getCrewMovies)");
+            //this.showErrors("Error: in Data getting Crew Movies 2.(getCrewMovies)");
         });  
     }
 
@@ -112,8 +131,7 @@ export class CrewPage {
     {
         console.log("CREW: showLoadingItem");
         this.loadingItem = this.loadingCtrl.create({
-            content: "Please wait...CREW",
-            dismissOnPageChange: true
+            content: "Please wait...CREW"
         });
 
         this.loadingItem.present();
@@ -122,7 +140,10 @@ export class CrewPage {
     hideLoadingItem()
     {
         console.log("CREW: hideLoadingItem");
-        this.loadingItem.dismiss();
+        setTimeout(() => {
+            this.loadingItem.dismiss();
+        }, 100);
+        //this.loadingItem.dismiss();
     }
 
     showLoadingItemWithTime() 

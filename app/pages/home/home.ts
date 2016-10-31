@@ -14,6 +14,8 @@ import { Events } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { CrewPage } from '../crew/crew';
 
+import { AddCrewPage } from '../add-crew/add-crew';
+
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
@@ -39,9 +41,11 @@ export class HomePage
         private dataStorage: DataStorage,
         private viewCtrl: ViewController,
         public events: Events,
-        private alertCtrl: AlertController) 
+        private alertCtrl: AlertController,
+        public modalCtrl: ModalController) 
     { 
         this.userCrews = this.dataStorage.userCrews; 
+        console.log("HOME: constructor");
    
     }
 
@@ -50,10 +54,6 @@ export class HomePage
         console.log("HOME: ionViewDidEnter");
 
         this.userCrews = this.dataStorage.userCrews;
-
-        
-        //console.log("this.dataStorage.userCrews");
-        //console.log(this.dataStorage.userCrews);
         
         if (!!this.userCrews["result"])
         {
@@ -111,7 +111,9 @@ export class HomePage
     hideLoadingItem()
     {
         console.log("HOME: hideLoadingItem");
-        this.loadingItem.dismiss();
+        setTimeout(() => {
+            this.loadingItem.dismiss();
+        }, 2000);
     }
 
     showLoadingItemWithTime() 
@@ -127,6 +129,9 @@ export class HomePage
 
     addCrewAlert()
     {
+
+        this.navCtrl.push(AddCrewPage);
+        /*
         let alert = this.alertCtrl.create({
         title: 'Add Crew',
         inputs: 
@@ -156,6 +161,7 @@ export class HomePage
         ]
         });
         alert.present();
+        */
     }
 
     addCrew(name)
@@ -190,6 +196,8 @@ export class HomePage
                     console.log("addCrew(name) - DATA");
 
                     this.getUserCrews(this.dataStorage.userToken);
+
+                    this.navCtrl.popToRoot();
                 }
             }, 
             error => 
@@ -227,6 +235,17 @@ export class HomePage
             this.hideLoadingItem();
             this.showErrors("Error: in Data getting User Crews.(getUserCrews - Error)");
         });        
+    }
+
+    showAddCrewModal()
+    {
+        console.log("HOME: ADD CREW PRESSED");
+        let addCrewModal = this.modalCtrl.create(AddCrewPage);
+        addCrewModal.present();
+
+        addCrewModal.onDidDismiss((data) => {
+            console.log(data);
+        });
     }
     
 }
